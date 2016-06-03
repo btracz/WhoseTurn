@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <%= JSON.stringify(model) %>
-  </body>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+    <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><%= title %></a>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Ajouter un collaborateur</a></li>
+                <li><a href="#">Supprimer un collaborateur</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<p>Alors, à qui le tour cette semaine ?</p>
+<ul>
+    <% for(var i=0; i<model.length; i++) {%>
+    <li><%= model[i].date %> -- <%= model[i].deliverer %></li>
+    <% } %>
+</ul>
+</body>
+<script src="javascripts/bootstrap.js"></script>
 </html>

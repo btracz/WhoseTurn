@@ -1,0 +1,11 @@
+{
+  "name": "WhoseTurn",
+  "version": "0.0.1",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
