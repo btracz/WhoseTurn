@@ -228,7 +228,7 @@
     "isExternal": false
   },
   {
-    "id": "eric.ndjawe@ext.soprasteria.com;",
+    "id": "eric.ndjawe",
     "name": "Eric",
     "hasSubscribe": true,
     "isExternal": true
@@ -258,7 +258,7 @@
     "isExternal": false
   },
   {
-    "id": "karim.aitgherbi@ext.soprasteria.com;",
+    "id": "karim.aitgherbi",
     "name": "Karim",
     "hasSubscribe": true,
     "isExternal": true
@@ -270,7 +270,7 @@
     "isExternal": false
   },
   {
-    "id": "maxime.meunier@ext.soprasteria.com;",
+    "id": "maxime.meunier",
     "name": "Maxime",
     "hasSubscribe": true,
     "isExternal": true
@@ -282,7 +282,7 @@
     "isExternal": false
   },
   {
-    "id": "zakaria.akli@ext.soprasteria.com;",
+    "id": "zakaria.akli",
     "name": "Zakaria",
     "hasSubscribe": true,
     "isExternal": true
@@ -294,13 +294,13 @@
     "isExternal": false
   },
   {
-    "id": "aurelien.filez@ext.soprasteria.com;",
+    "id": "aurelien.filez",
     "name": "Aurélien",
     "hasSubscribe": true,
     "isExternal": true
   },
   {
-    "id": "jean-baptiste.pionner@ext.soprasteria.com;",
+    "id": "jean-baptiste.pionner",
     "name": "Jean-Baptiste",
     "hasSubscribe": false,
     "isExternal": true
@@ -324,7 +324,7 @@
     "isExternal": false
   },
   {
-    "id": "jordan.claudot@ext.soprasteria.com;",
+    "id": "jordan.claudot",
     "name": "Jordan",
     "hasSubscribe": true,
     "isExternal": true
