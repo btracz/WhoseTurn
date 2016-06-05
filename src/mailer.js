@@ -23,7 +23,7 @@ module.exports = {
  * Envoie la notification de prochain livreur aux abonn�s
  */
 function sendWeeklyNotification(){
-    return sendMail("b.tracz@club-internet.fr", "Test", "<body>Miam des petits pains !</body>");
+    return sendMail("toto@yopmail.com", "Test", "<body>Miam des petits pains !</body>");
 }
 
 /**
