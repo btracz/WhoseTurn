@@ -11,8 +11,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/test-mail', function(req, res, next) {
-    var result = mailer.sendWeeklyNotification();
-    res.send(200, result);
+    mailer.sendWeeklyNotification().then(function(value){
+        res.status(200).send(value);
+    }, function(reason){
+        res.status(500).send(reason);
+    });
 });
 
 module.exports = router;

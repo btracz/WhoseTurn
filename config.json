@@ -1,0 +1,15 @@
+{
+  "mailServer": {
+    "host": "",
+    "port": 25,
+    "secure": false,
+    "auth": {
+      "user": "",
+      "pass": ""
+    },
+    "tls": {
+      "rejectUnauthorized": false
+    }
+  },
+  "mailSender": "no-reply@something.com"
+}

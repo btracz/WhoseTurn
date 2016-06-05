@@ -1,39 +1,31 @@
+var Q = require("q");
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var config = require("./config");
 
 // A mettre en config
-var smtpClient = nodemailer.createTransport(smtpTransport({
-    host: '',
-    port: 25,
-    secure: false, // use SSL
-    auth: {
-        user: "",
-        pass: ""
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-}));
+var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 
 module.exports = {
     sendWeeklyNotification: sendWeeklyNotification
 };
 
 /**
- * Envoie la notification de prochain livreur aux abonn�s
+ * Envoie la notification de prochain livreur aux abonnés
  */
 function sendWeeklyNotification(){
-    return sendMail("toto@yopmail.com", "Test", "<body>Miam des petits pains !</body>");
+    return sendMail("", "Test", "<body>Miam des petits pains !</body>");
 }
 
 /**
- * Envoie un mail via le serveur mail configur�
+ * Envoie un mail via le serveur mail configuré
  * @param recipients Destinataire (string) ou tableau des destinataires (array de string)
  * @param subject
  * @param body
  */
 function sendMail(recipients, subject, body){
     var recipient = '';
+    var deferred = Q.defer();
 
     if(Array.isArray(recipients)){
         recipients.forEach(function(item){
@@ -45,21 +37,24 @@ function sendMail(recipients, subject, body){
     }
     var mailOpts = {
         to: recipient,
-        from: "no-reply@",
+        from: config.mailSender(),
         subject: subject,
         html: body
     };
 
-    return smtpClient.sendMail(mailOpts, function (error, response) {
+    smtpClient.sendMail(mailOpts, function (error, response) {
         console.log("Réponse envoi : ");
         console.log(response);
         //Email not sent
         if (error) {
             // ajout d'une trace dans les logs
-            console.log("Envoi lors de l'envoi du mail '" + subject + "' à " + recipients + ", détails : " + error.toString() + " , stack : " + error.stack());
-            return false;
+            console.log("Envoi lors de l'envoi du mail '" + subject + "' à " + recipients + ", détails : " + error.toString());
+
+            deferred.reject(error);
         }
 
-        return true;
+        deferred.resolve(response);
     });
+
+    return deferred.promise;
 }
