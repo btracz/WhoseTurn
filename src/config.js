@@ -2,7 +2,7 @@
  * Created by Benjamin on 05/06/2016.
  */
 var fs = require('fs');
-var userFile = './config.json';
+var configFile = './config.json';
 
 module.exports = {
     getFullConfig: getFullConfig,
@@ -11,7 +11,7 @@ module.exports = {
 };
 
 function getFullConfig() {
-    return JSON.parse(fs.readFileSync(userFile, 'utf8'));
+    return JSON.parse(fs.readFileSync(configFile, 'utf8'));
 }
 
 function getMailSender() {
