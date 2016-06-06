@@ -6,7 +6,6 @@ var mailer = require("../src/mailer");
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var planData = planning.actualAndNextDeliverer();
-    console.log(planData);
     res.render('index', {title : "A qui le tour ?", model : planData});
 });
 
