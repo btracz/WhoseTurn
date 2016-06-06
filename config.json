@@ -1,15 +1,17 @@
 {
   "mailServer": {
-    "host": "",
-    "port": 25,
+    "host": "ptx.send.corp.sopra",
+    "port": 587,
     "secure": false,
+    "requireTLS": true,
     "auth": {
       "user": "",
       "pass": ""
     },
     "tls": {
-      "rejectUnauthorized": false
+      "rejectUnauthorized": false,
+      "secureProtocol": "SSLv3_method"
     }
   },
-  "mailSender": "no-reply@something.com"
+  "mailSender": ""
 }
