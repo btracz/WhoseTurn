@@ -6,7 +6,8 @@ var userFile = './data/users.json';
 
 module.exports = {
     getUsers: getUsers,
-    getSubscribers: getSubscribers
+    getSubscribers: getSubscribers,
+    getUser: getUser
 };
 
 function getUsers(){
@@ -19,4 +20,19 @@ function getSubscribers(){
     return users.filter(function(item){
        return item.hasSubscribe;
     });
+}
+
+function getUser(id){
+    var users = getUsers();
+
+    var matchingUsers =  users.filter(function(item){
+        return item.id == id;
+    });
+
+    if (matchingUsers.length >= 1){
+        return matchingUsers[0];
+    } else {
+        console.log('Aucun utilisateur correspondant à ' + id);
+        return null;
+    }
 }

@@ -28,7 +28,7 @@
 <p>Alors, à qui le tour cette semaine ?</p>
 <ul>
     <% for(var i=0; i<model.length; i++) {%>
-    <li><%= model[i].date %> -- <%= model[i].deliverer %></li>
+    <li><%= model[i].date %> -- <%= model[i].deliverer.name %></li>
     <% } %>
 </ul>
 </body>

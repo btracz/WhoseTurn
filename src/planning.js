@@ -4,6 +4,7 @@
 var fs = require('fs');
 var moment = require('moment');
 var _ = require('underscore');
+var users = require("./users");
 var planningFile = './data/planning.json';
 
 module.exports = {
@@ -26,6 +27,11 @@ function actualAndNextDeliverer() {
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         return diffDays <= 13 && diffDays >= 0;
     });
+
+    Object.keys(result).map(function(index) {
+        result[index].deliverer = users.getUser(result[index].deliverer);
+    });
+
     console.log(result);
     return result;
 }
