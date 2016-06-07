@@ -6,7 +6,8 @@
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
 </head>
-<body>
+
+<body background="/images/vinnoiserie.jpg">
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -25,12 +26,28 @@
     <!-- /.container-fluid -->
 </nav>
 
-<p>Alors, à qui le tour cette semaine ?</p>
-<ul>
-    <% for(var i=0; i<model.length; i++) {%>
-    <li><%= model[i].date %> -- <%= model[i].deliverer.name %></li>
+<div class="the_deliverer">
+<h2>Alors, à qui le tour cette semaine ?</h2>
+<p class="deliverer">
+    <% for(var i=0; i<model.length-1; i++) {%>
+    <%= model[i].date %> -- <%= model[i].deliverer.name %>
     <% } %>
-</ul>
+</p>
+    <img id="deliv_image" src="/images/nathan_pichon.jpg">
+</div>
+
+</br>
+
+<div class="the_next_deliverer">
+<h4>La semaine prochaine, ce sera :</h4>
+<p class="next_deliverer">
+    <% for(var i=1; i<model.length; i++) {%>
+    <%= model[i].date %> -- <%= model[i].deliverer.name %>
+    <% } %>
+</p>
+    <img id="next_deliv_image" src="/images/inconnu.png">
+</div>
+
 </body>
 <script src="javascripts/bootstrap.js"></script>
 </html>

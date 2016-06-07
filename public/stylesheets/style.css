@@ -1,8 +1,31 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-size: 100%;
 }
 
 a {
   color: #00B7FF;
+}
+
+.the_deliverer {
+  text-align: center;
+  padding: 1em;
+  background-color: white;
+  opacity: 0.8;
+}
+
+.the_next_deliverer {
+  text-align: center;
+  padding: 1em;
+  background-color: white;
+  opacity: 0.8;
+}
+
+#deliv_image {
+  width: 13%;
+}
+
+#next_deliv_image {
+  width: 5%;
 }
