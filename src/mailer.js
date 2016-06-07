@@ -1,7 +1,11 @@
 var Q = require("q");
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var EmailTemplate = require('email-templates').EmailTemplate;
+var path = require('path');
 var config = require("./config");
+var planning = require("./planning");
+var users = require("./users");
 
 // A mettre en config
 var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
@@ -13,8 +17,30 @@ module.exports = {
 /**
  * Envoie la notification de prochain livreur aux abonnés
  */
-function sendWeeklyNotification(){
-    return sendMail("", "Test", "<body>Miam des petits pains !</body>");
+function sendWeeklyNotification() {
+    var deferred = Q.defer();
+
+    var nextDeliveries = planning.actualAndNextDeliverer();
+    var notification = new EmailTemplate(path.join(__dirname, '../mails/weeklyNotification'));
+    notification.render({deliveries: nextDeliveries}, function (err, result) {
+        if (err) {
+            console.log("Erreur lors de l'envoi de la notification hebdomadaire, raison : " + err);
+            deferred.reject(err);
+        } else {
+            // bouchon pour les tests
+            //var mails = users.getSubscribersMails();
+            var mails = [""];
+            sendMail(mails,
+                "Rappels petits pains",
+                result.html).then(function(result){
+                    deferred.resolve(result);
+                }).catch(function(error){
+                    deferred.reject(error);
+                });
+        }
+    });
+
+    return deferred.promise;
 }
 
 /**
@@ -23,12 +49,12 @@ function sendWeeklyNotification(){
  * @param subject
  * @param body
  */
-function sendMail(recipients, subject, body){
+function sendMail(recipients, subject, body) {
     var recipient = '';
     var deferred = Q.defer();
 
-    if(Array.isArray(recipients)){
-        recipients.forEach(function(item){
+    if (Array.isArray(recipients)) {
+        recipients.forEach(function (item) {
             recipient += item + ";";
         });
         recipient = recipient.slice(0, -1);

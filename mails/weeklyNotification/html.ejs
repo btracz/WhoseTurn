@@ -4,12 +4,14 @@
     <title>Rappel Petits Pains</title>
 </header>
 <body>
-    <h1>Rappel Petits Pains</h1>
-    <p>Bonjour à tous,
-    Cette semaine la personne qui nous apportera les petits pains est <b><%= nextDeliverer %></b>.
+    <h2>Rappel Petits Pains</h2>
+    <br>
+    <p>Bonjour à tous,<br>
+    Cette semaine la personne qui nous apportera les petits pains est <b><%= deliveries[0].deliverer.name %></b>.<br>
+    <br>
+    La semaine prochaine ce sera <b><%= deliveries[1].deliverer.name %></b>. <br>
+    Retrouvez tout le calendrier <a title="(accessible depuis le réseau Sopra uniquement)" href="http://swinterwebint01.ptx.fr.sopra:36789">ici</a>.</p>
 
-    P.S.: La semaine prochaine ce sera <b><%= followingDeliverer %></b>. Plus d'infos sur le calendrier <a href="http://swinterwebdev01:36789">ici</a>.</p>
-
-    <p>N.B. : Ceci est un mail automatique, merci de ne pas y répondre.</p>
+    <p><i>N.B. : Ceci est un mail automatique, merci de ne pas y répondre.</i></p>
 </body>
 </html>

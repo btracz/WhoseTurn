@@ -7,6 +7,7 @@ var userFile = './data/users.json';
 module.exports = {
     getUsers: getUsers,
     getSubscribers: getSubscribers,
+    getSubscribersMails: getSubscribersMails,
     getUser: getUser
 };
 
@@ -20,6 +21,11 @@ function getSubscribers(){
     return users.filter(function(item){
        return item.hasSubscribe;
     });
+}
+
+function getSubscribersMails(){
+    var mails = [];
+
 }
 
 function getUser(id){
