@@ -25,13 +25,13 @@ var auth = function (req, res, next) {
 
 /* GET users listing. */
 router.get('/', auth, function (req, res) {
-    res.send(200, 'Authenticated');
+    res.render('admin/index', {title : "Administration"});
 });
 
 router.get('/users', auth, function (req, res){
     var users = userManager.getUsers();
     var subscribers = userManager.getSubscribers();
-    res.status(200).send({ users: users, subscribers : subscribers});
+    res.render('admin/users', {title : "Gestion des utilisateurs"});
 });
 
 module.exports = router;
