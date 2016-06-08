@@ -33,7 +33,7 @@
                     <p class="next_deliverer">
                         <%= model.deliverers[i].deliverer.name %>
                     </p>
-                    <img id="next_deliv_image" src="<%= model.deliverers[i].deliverer.avatar %>">
+                  <a href="<%= model.deliverers[i].deliverer.avatar %>"><img id="next_deliv_image" src="<%= model.deliverers[i].deliverer.avatar %>"/></a>
                 </div>
             </div>
             <% } %>
