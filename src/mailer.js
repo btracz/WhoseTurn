@@ -5,14 +5,26 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 var config = require("./config");
 var planning = require("./planning");
+var scheduler = require("./scheduler");
 var users = require("./users");
 
 // A mettre en config
 var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 
 module.exports = {
-    sendWeeklyNotification: sendWeeklyNotification
+    sendWeeklyNotification: sendWeeklyNotification,
+    startNotificationScheduling: startNotificationScheduling
 };
+
+/**
+ * Démarrage de l'ordonnanceur pour la notification hebdomadaire.
+ * @param config : string - configuration du micro-service
+ */
+function startNotificationScheduling() {
+    console.log("lancement de l'ordonnanceur");
+    scheduler.createJob("WeeklyNotification", config.weeklyNotificationPattern(), sendWeeklyNotification);
+    scheduler.startTask("WeeklyNotification");
+}
 
 /**
  * Envoie la notification de prochain livreur aux abonnés
@@ -27,14 +39,16 @@ function sendWeeklyNotification() {
             console.log("Erreur lors de l'envoi de la notification hebdomadaire, raison : " + err);
             deferred.reject(err);
         } else {
-            // bouchon pour les tests
-            //var mails = users.getSubscribersMails();
-            var mails = [""];
+            var mails = users.getSubscribersMails();
+            console.log("abonnés : " + mails.join(";"));
+
             sendMail(mails,
                 "Rappels petits pains",
-                result.html).then(function(result){
+                result.html).then(function (result) {
+                    console.log("Notification hebdomadaire réussie");
                     deferred.resolve(result);
-                }).catch(function(error){
+                }).catch(function (error) {
+                    console.log("Notification hebdomadaire échouée, raison : " + error);
                     deferred.reject(error);
                 });
         }

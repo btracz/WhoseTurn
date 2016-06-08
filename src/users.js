@@ -2,6 +2,7 @@
  * Created by Benjamin on 03/06/2016.
  */
 var fs = require('fs');
+var config = require("./config");
 var userFile = './data/users.json';
 
 module.exports = {
@@ -25,7 +26,19 @@ function getSubscribers(){
 
 function getSubscribersMails(){
     var mails = [];
+    var subscribers = getSubscribers();
 
+    subscribers.forEach(function(item){
+        if(item && item.email){
+            mails.push(item.email);
+        } else if(item && item.isExternal){
+            mails.push(config.externalMailFormat().replace("{0}", item.id));
+        } else if(item){
+            mails.push(config.mailFormat().replace("{0}", item.id));
+        }
+    });
+
+    return mails;
 }
 
 function getUser(id){

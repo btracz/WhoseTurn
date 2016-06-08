@@ -7,7 +7,10 @@ var configFile = './config.json';
 module.exports = {
     getFullConfig: getFullConfig,
     mailSender: getMailSender,
-    mailServer: getMailServer
+    mailServer: getMailServer,
+    weeklyNotificationPattern: getWeeklyNotificationPattern,
+    mailFormat: getMailFormat,
+    externalMailFormat: getExternalMailFormat
 };
 
 function getFullConfig() {
@@ -22,4 +25,19 @@ function getMailSender() {
 function getMailServer(){
     var config = getFullConfig();
     return config.mailServer;
+}
+
+function getWeeklyNotificationPattern(){
+    var config = getFullConfig();
+    return config.weeklyNotificationPattern;
+}
+
+function getMailFormat(){
+    var config = getFullConfig();
+    return config.mailFormat;
+}
+
+function getExternalMailFormat(){
+    var config = getFullConfig();
+    return config.externalMailFormat;
 }
