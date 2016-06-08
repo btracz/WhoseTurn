@@ -1,6 +1,6 @@
 {
   "mailServer": {
-    "host": "ptx.send.corp.sopra",
+    "host": "",
     "port": 587,
     "secure": false,
     "requireTLS": true,
@@ -13,5 +13,8 @@
       "secureProtocol": "SSLv3_method"
     }
   },
-  "mailSender": ""
+  "mailSender": "@soprasteria.com",
+  "weeklyNotificationPattern": "0 14 * * 4",
+  "mailFormat": "{0}@soprasteria.com",
+  "externalMailFormat": "{0}@ext.soprasteria.com"
 }
