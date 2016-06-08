@@ -2,7 +2,8 @@
  * Created by Benjamin on 05/06/2016.
  */
 var fs = require('fs');
-var configFile = './config.json';
+var path = require('path');
+configFile = path.join(__dirname, '../config.json');
 
 module.exports = {
     getFullConfig: getFullConfig,
