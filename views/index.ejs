@@ -7,7 +7,6 @@
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
     <link rel="icon" type="image/png" href="/croissant.png">
 </head>
-
 <body background="/images/vinnoiserie.jpg">
 
 <div class="the_deliverer">
@@ -16,7 +15,7 @@
     <p class="deliverer">
         <%= model.actualDeliverer.deliverer.name %> ramène les petits pains.
     </p>
-    <img id="deliv_image" src="/images/nathan_pichon.jpg">
+    <img id="deliv_image" src="<%= model.actualDeliverer.deliverer.avatar %>">
 </div>
 
 </br>
@@ -34,7 +33,7 @@
                     <p class="next_deliverer">
                         <%= model.deliverers[i].deliverer.name %>
                     </p>
-                    <img id="next_deliv_image" src="/images/inconnu.png">
+                    <img id="next_deliv_image" src="<%= model.deliverers[i].deliverer.avatar %>">
                 </div>
             </div>
             <% } %>
