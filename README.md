@@ -16,3 +16,4 @@ Evolutions :
 - Notification d'indisponibilité
 - Acceptation de l'échange de tour
 - Affichage de la photo du prochain livreur
+- Savoir quand est le prochain tour de quelqu'un (idéalement avec auto-complétion)
