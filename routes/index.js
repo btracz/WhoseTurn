@@ -5,8 +5,16 @@ var mailer = require("../src/mailer");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    var model = {};
     var planData = planning.actualAndNextDeliverer();
-    res.render('index', {title : "A qui le tour ?", model : planData});
+    model.actualDeliverer = planData[0];
+    model.deliverers = planning.getPlanning();
+    model.deliverers.forEach(function (deliverer) {
+        if (deliverer.date === planData[1].date) {
+            deliverer.next = true;
+        }
+    });
+    res.render('index', {title : "A qui le tour ?", model : model});
 });
 
 router.get('/test-mail', function(req, res, next) {

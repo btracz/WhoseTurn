@@ -12,19 +12,19 @@ module.exports = {
     getUser: getUser
 };
 
-function getUsers(){
+function getUsers() {
     return JSON.parse(fs.readFileSync(userFile, 'utf8'));
 }
 
-function getSubscribers(){
+function getSubscribers() {
     var users = getUsers();
 
-    return users.filter(function(item){
-       return item.hasSubscribe;
+    return users.filter(function (item) {
+        return item.hasSubscribe;
     });
 }
 
-function getSubscribersMails(){
+function getSubscribersMails() {
     var mails = [];
     var subscribers = getSubscribers();
 
@@ -41,17 +41,17 @@ function getSubscribersMails(){
     return mails;
 }
 
-function getUser(id){
+function getUser(id) {
     var users = getUsers();
 
-    var matchingUsers =  users.filter(function(item){
+    var matchingUsers = users.filter(function (item) {
         return item.id == id;
     });
 
-    if (matchingUsers.length >= 1){
+    if (matchingUsers.length >= 1) {
         return matchingUsers[0];
     } else {
         console.log('Aucun utilisateur correspondant à ' + id);
-        return null;
+        return {"name": id};
     }
 }

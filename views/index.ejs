@@ -9,45 +9,50 @@
 
 <body background="/images/vinnoiserie.jpg">
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><%= title %></a>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="/history">Historique des livraisons</a></li>
-                <li><a href="/admin">Administration</a></li>
-                <li><a href="/test-mail">Test Mail</a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-
 <div class="the_deliverer">
-<h2>Alors, à qui le tour cette semaine ?</h2>
-<p class="deliverer">
-    <% for(var i=0; i<model.length-1; i++) {%>
-    <%= model[i].date %> -- <%= model[i].deliverer.name %>
-    <% } %>
-</p>
+    <h2>Alors, à qui le tour cette semaine ?</h2>
+
+    <p class="deliverer">
+        <%= model.actualDeliverer.deliverer.name %> ramène les petits pains.
+    </p>
     <img id="deliv_image" src="/images/nathan_pichon.jpg">
 </div>
 
 </br>
 
 <div class="the_next_deliverer">
-<h4>La semaine prochaine, ce sera :</h4>
-<p class="next_deliverer">
-    <% for(var i=1; i<model.length; i++) {%>
-    <%= model[i].date %> -- <%= model[i].deliverer.name %>
-    <% } %>
-</p>
-    <img id="next_deliv_image" src="/images/inconnu.png">
+
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <% for(var i = 0; i < model.deliverers.length; i++) { %>
+            <div class="item<%= model.deliverers[i].next == true ? " active" : "" %>">
+                <div class="container">
+                    <h4><%= model.deliverers[i].title %></h4>
+
+                    <p class="next_deliverer">
+                        <%= model.deliverers[i].deliverer.name %>
+                    </p>
+                    <img id="next_deliv_image" src="/images/inconnu.png">
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 </div>
 
 </body>
-<script src="javascripts/bootstrap.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/source.js"></script>
 </html>
