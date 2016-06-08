@@ -39,7 +39,11 @@ function sendWeeklyNotification() {
             console.log("Erreur lors de l'envoi de la notification hebdomadaire, raison : " + err);
             deferred.reject(err);
         } else {
-            var mails = users.getSubscribersMails();
+            var mails = [""];
+
+            if(process.env.NODE_ENV === "production"){
+                mails = users.getSubscribersMails();
+            }
             console.log("abonnés : " + mails.join(";"));
 
             sendMail(mails,

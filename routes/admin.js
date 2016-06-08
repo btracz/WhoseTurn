@@ -1,6 +1,7 @@
 var express = require('express');
 var userManager = require('../src/users');
 var router = express.Router();
+var mailer = require("../src/mailer");
 
 /*Authentification*/
 var basicAuth = require('basic-auth');
@@ -32,6 +33,14 @@ router.get('/users', auth, function (req, res){
     var users = userManager.getUsers();
     var subscribers = userManager.getSubscribers();
     res.render('admin/users', {title : "Gestion des utilisateurs"});
+});
+
+router.get('/send-notification', function(req, res, next) {
+    mailer.sendWeeklyNotification().then(function(value){
+        res.status(200).send(value);
+    }, function(reason){
+        res.status(500).send(reason);
+    });
 });
 
 module.exports = router;
