@@ -39,3 +39,9 @@ a {
     height: 100px;
     width: auto;
 }
+
+.searchForm {
+    padding: 1em;
+    background-color: white;
+    border-radius: 4px;
+}
