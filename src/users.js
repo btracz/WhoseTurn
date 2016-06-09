@@ -14,13 +14,19 @@ module.exports = {
     getAvatar: getAvatar
 };
 
-function getUsers() {
-    var users = JSON.parse(fs.readFileSync(userFile, 'utf8'));
-    users.forEach(function (user) {
-        user.avatar = getAvatar(user.id);
-    });
+var usersCache;
 
-    return users;
+function getUsers() {
+    if(usersCache){
+        return usersCache;
+    } else {
+        var users = JSON.parse(fs.readFileSync(userFile, 'utf8'));
+        users.forEach(function (user) {
+            user.avatar = getAvatar(user.id);
+        });
+        usersCache = users;
+        return users;
+    }
 }
 
 function getSubscribers() {
