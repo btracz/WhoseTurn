@@ -38,4 +38,6 @@ a {
   display: block;
   margin: auto;
   border-radius:18px;
+  height: 100px;
+  width: auto;
 }
