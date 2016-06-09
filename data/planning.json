@@ -825,66 +825,74 @@
   },
   {
     "date": "17/06/2016",
-    "deliverer": "mohamed-lamine.baza"
-  },
-  {
-    "date": "24/06/2016",
     "deliverer": "prince.ndong"
   },
   {
-    "date": "01/07/2016",
+    "date": "24/06/2016",
     "deliverer": "julien.wittouck"
   },
   {
-    "date": "08/07/2016",
+    "date": "01/07/2016",
     "deliverer": "louis.sautelet"
   },
   {
+    "date": "08/07/2016",
+    "deliverer": "mohamed-lamine.baza"
+  },
+  {
     "date": "15/07/2016",
-    "deliverer": "pierre-david.schott"
+    "deliverer": "ayoub.mounji"
   },
   {
     "date": "22/07/2016",
-    "deliverer": "ludwig.leplan"
+    "deliverer": "ludovic.monnier"
   },
   {
     "date": "29/07/2016",
-    "deliverer": "damien.maheas"
+    "deliverer": "pierre-david.schott"
   },
   {
     "date": "05/08/2016",
-    "deliverer": "giovanni.terrasi"
+    "deliverer": "ludwig.leplan"
   },
   {
     "date": "12/08/2016",
-    "deliverer": "eric.ndjawe"
+    "deliverer": "damien.maheas"
   },
   {
     "date": "19/08/2016",
-    "deliverer": "sylvain.matuszak"
+    "deliverer": "giovanni.terrasi"
   },
   {
     "date": "26/08/2016",
-    "deliverer": "clementine.barbier"
+    "deliverer": "eric.ndjawe"
   },
   {
     "date": "02/09/2016",
-    "deliverer": "philippe.frere"
+    "deliverer": "sylvain.matuszak"
   },
   {
     "date": "09/09/2016",
-    "deliverer": "arnaud.marie"
+    "deliverer": "clementine.barbier"
   },
   {
     "date": "16/09/2016",
-    "deliverer": "karim.aitgherbi"
+    "deliverer": "philippe.frere"
   },
   {
     "date": "23/09/2016",
-    "deliverer": "terence.leymarie"
+    "deliverer": "arnaud.marie"
   },
   {
     "date": "30/09/2016",
+    "deliverer": "karim.aitgherbi"
+  },
+  {
+    "date": "07/10/2016",
+    "deliverer": "terence.leymarie"
+  },
+  {
+    "date": "14/10/2016",
     "deliverer": "anthony.nguyen"
   }
 ]
