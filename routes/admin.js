@@ -31,8 +31,7 @@ router.get('/', auth, function (req, res) {
 
 router.get('/users', auth, function (req, res){
     var users = userManager.getUsers();
-    var subscribers = userManager.getSubscribers();
-    res.render('admin/users', {title : "Gestion des utilisateurs"});
+    res.render('admin/users', {title : "Gestion des utilisateurs", users: users});
 });
 
 router.get('/send-notification', function(req, res, next) {
