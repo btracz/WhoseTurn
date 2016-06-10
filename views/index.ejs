@@ -56,14 +56,27 @@
 <div class="searchForm">
     <h4>Vous voulez savoir quand sera votre tour ?</h4>
     <br/>
-    <form method="post" action="search.php">
-        <p>
+    <form id="mysearchform" action="/" method="post">
+        <fieldset>
             <label for="name">Nom/Prénom :</label>
-            <input type="text" name="name" id="name" placeholder="Ex : Bob" size="20" maxlength="15" />
-            <input id="thebouton" type="submit" value="Rechercher" />
-        </p>
+            <input type="text" id="name" name="name" placeholder="Exemple : Bob" />
+            <input type="submit" id="thebouton" value="Rechercher" />
+        </fieldset>
     </form>
+    <p id="test"></p>
 </div>
+
+
+<%
+    function searchUser() {
+        var x = document.getElementById("mysearchform");
+        var text = "";
+        text += x.elements[1].value;
+        document.getElementById("test").innerHTML = text;
+    }
+%>
+
+
 
 </body>
 <script src="js/jquery.js"></script>

@@ -16,4 +16,11 @@ router.get('/', function(req, res, next) {
     res.render('index', {title : "A qui le tour ?", model : model});
 });
 
+/* POST home page*/
+router.post('/', function(req, res, next) {
+    var model = {};
+    console.log(req.body);
+    res.render('index', {title : "A qui le tour ?", model : model});
+});
+
 module.exports = router;
