@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+    <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
+    <link rel="icon" type="image/png" href="/croissant.png">
+</head>
+
+<body>
+    <h1>Paramètre :</h1>
+    <fieldset>
+        <legend>Serveur mail : </legend>
+        <div>
+            <label for="host">Host : </label>
+            <input id="host" type="text" value="<%= config.mailServer.host %>"/><br>
+            <label for="port">Port : </label>
+            <input id="port" type="text" value="<%= config.mailServer.port %>"/><br>
+            <label for="secure">Secure : </label>
+            <input id="secure" type="checkbox" <%= config.mailServer.secure ? 'checked' : '' %>/><br>
+            <label for="tls">Chiffrement TLS : </label>
+            <input id="tls" type="checkbox" <%= config.mailServer.requireTLS ? 'checked' : '' %>/><br>
+        </div>
+    </fieldset>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/source.js"></script>
+</html>
