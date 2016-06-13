@@ -5,26 +5,78 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
+    <link type="text/css" href="/stylesheets/jquery-cron.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="/croissant.png">
 </head>
 
 <body>
-    <h1>Paramètre :</h1>
-    <fieldset>
-        <legend>Serveur mail : </legend>
-        <div>
-            <label for="host">Host : </label>
-            <input id="host" type="text" value="<%= config.mailServer.host %>"/><br>
-            <label for="port">Port : </label>
-            <input id="port" type="text" value="<%= config.mailServer.port %>"/><br>
-            <label for="secure">Secure : </label>
-            <input id="secure" type="checkbox" <%= config.mailServer.secure ? 'checked' : '' %>/><br>
-            <label for="tls">Chiffrement TLS : </label>
-            <input id="tls" type="checkbox" <%= config.mailServer.requireTLS ? 'checked' : '' %>/><br>
-        </div>
-    </fieldset>
+<main class="container">
+    <h1 class="text-center">Paramètre :</h1>
+
+    <form class="form-horizontal">
+        <fieldset>
+            <legend>Serveur mail :</legend>
+            <div class="form-group">
+                <label for="host" class="col-sm-2 control-label">Host : </label>
+
+                <div class="col-sm-10">
+                    <input id="host" type="text" class="form-control" value="<%= config.mailServer.host %>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="port" class="col-sm-2 control-label">Port : </label>
+
+                <div class="col-sm-10">
+                    <input id="port" type="text" class="form-control" value="<%= config.mailServer.port %>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <label for="secure" class="checkbox-inline">
+                        <input id="secure" type="checkbox" <%= config.mailServer.secure ? 'checked' : '' %>> Secure
+                    </label>
+                    <label for="tls" class="checkbox-inline">
+                        <input id="tls" type="checkbox" <%= config.mailServer.requireTLS ? 'checked' : '' %>> Chiffrement TLS
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="user" class="col-sm-2 control-label">User : </label>
+
+                <div class="col-sm-10">
+                    <input id="user" type="text" class="form-control" value="<%= config.mailServer.auth.user %>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pass" class="col-sm-2 control-label">Password : </label>
+
+                <div class="col-sm-10">
+                    <input id="pass" type="password" class="form-control" value="<%= config.mailServer.auth.pass %>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pass" class="col-sm-2 control-label">Cron : </label>
+
+                <div class="col-sm-10">
+                    <div id="cron"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Valider</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</main>
 </body>
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/source.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/cron/jquery-cron.js"></script>
+<script src="/js/source.js"></script>
+<script type="text/javascript">
+    $('#cron').cron({
+        initial: "<%= config.weeklyNotificationPattern %>"
+    });
+</script>
 </html>
