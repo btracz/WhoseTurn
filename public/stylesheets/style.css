@@ -45,3 +45,14 @@ a {
     background-color: white;
     border-radius: 4px;
 }
+
+.admin-button{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    opacity: 0.33;
+}
+
+.admin-button:hover{
+    opacity: 0.8;
+}
