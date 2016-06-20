@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Administration</title>
+    <title>Administration - Gestion des utilisateurs</title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
@@ -10,14 +10,12 @@
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Administration</a>
+        <a class="navbar-brand" href="#">Gestion du planning</a>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/admin/planning">Editer le planning</a></li>
-                <li><a href="/admin/users">Gérer les utilisateurs</a></li>
-                <li><a href="/admin/send-notification">Envoyer le mail hebdo</a></li>
+                <li><a href="/admin">Retour à l'accueil de la partie administration</a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -25,4 +23,19 @@
     <!-- /.container-fluid -->
 </nav>
 
-<p>Bienvenue sur la page admin !!!!</p>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Livreur</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% model.forEach(function(item) { %>
+    <tr>
+        <td><%= item.date %></td>
+        <td><%= item.deliverer.name %></td>
+    </tr>
+    <% }) %>
+    </tbody>
+</table>

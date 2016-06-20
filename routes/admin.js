@@ -1,5 +1,6 @@
 var express = require('express');
 var userManager = require('../src/users');
+var planningManager = require('../src/planning');
 var router = express.Router();
 var mailer = require("../src/mailer");
 var configFile = './config.json';
@@ -39,6 +40,10 @@ router.get('/users', auth, function (req, res) {
 router.get('/parameters', auth, function (req, res) {
     var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
     res.render('admin/parameters', {title: "Paramétrage de l'application", config: config});
+});
+
+router.get('/planning', auth, function (req, res) {
+    res.render('admin/planning', {model: planningManager.getPlanning()});
 });
 
 router.get('/send-notification', function (req, res, next) {
