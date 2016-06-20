@@ -56,3 +56,29 @@ a {
 .admin-button:hover{
     opacity: 0.8;
 }
+
+.sortableDiv, .contentDiv {
+    float: left;
+}
+
+#content {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#sortable {
+    list-style-type: none;
+    padding: 0;
+    position: absolute;
+}
+
+#sortable li {
+    padding-left: 7em;
+    width: 300px;
+}
+
+#sortable li span {
+    position: relative;
+    margin-left: -1.3em;
+}

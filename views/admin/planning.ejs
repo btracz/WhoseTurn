@@ -5,6 +5,8 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.js"></script>
 </head>
 <body>
 
@@ -22,20 +24,36 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
+<script>
+  $(function() {
+    $( "#sortable" ).sortable({
+      cursor: "move"
+    });
+  });
+</script>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Date</th>
-        <th>Livreur</th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="sortableDiv">
+  <ul id="sortable">
     <% model.forEach(function(item) { %>
-    <tr>
-        <td><%= item.date %></td>
-        <td><%= item.deliverer.name %></td>
-    </tr>
+
+    <li class="ui-state-default">
+      <span class="ui-icon ui-icon-arrowthick-2-n-s">
+        <%= item.deliverer.name %>
+      </span>
+    </li>
     <% }) %>
-    </tbody>
-</table>
+  </ul>
+</div>
+
+<div class="contentDiv">
+  <ul id="content">
+    <% model.forEach(function(item) { %>
+    <li class="ui-state-default">
+      <%= item.date %>
+    </li>
+    <% }) %>
+  </ul>
+</div>
+
+</body>
+</html>

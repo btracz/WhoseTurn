@@ -25,7 +25,7 @@
   },
   {
     "date": "03/08/2012",
-    "deliverer": "Hélène"
+    "deliverer": "helene"
   },
   {
     "date": "24/08/2012",
@@ -69,7 +69,7 @@
   },
   {
     "date": "02/11/2012",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "09/11/2012",
@@ -93,7 +93,7 @@
   },
   {
     "date": "14/12/2012",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "21/12/2012",
@@ -177,7 +177,7 @@
   },
   {
     "date": "10/05/2013",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "17/05/2013",
@@ -277,7 +277,7 @@
   },
   {
     "date": "01/11/2013",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "08/11/2013",
@@ -309,7 +309,7 @@
   },
   {
     "date": "27/12/2013",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "03/01/2014",
@@ -409,7 +409,7 @@
   },
   {
     "date": "20/06/2014",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "27/06/2014",
@@ -441,11 +441,11 @@
   },
   {
     "date": "15/08/2014",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "22/08/2014",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "29/08/2014",
@@ -497,7 +497,7 @@
   },
   {
     "date": "21/11/2014",
-    "deliverer": "Personne"
+    "deliverer": "personne"
   },
   {
     "date": "28/11/2014",
@@ -573,7 +573,7 @@
   },
   {
     "date": "03/04/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "10/04/2015",
@@ -625,7 +625,7 @@
   },
   {
     "date": "03/07/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "10/07/2015",
@@ -645,7 +645,7 @@
   },
   {
     "date": "07/08/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "14/08/2015",
@@ -661,7 +661,7 @@
   },
   {
     "date": "04/09/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "11/09/2015",
@@ -677,7 +677,7 @@
   },
   {
     "date": "02/10/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "09/10/2015",
@@ -697,7 +697,7 @@
   },
   {
     "date": "06/11/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "13/11/2015",
@@ -713,7 +713,7 @@
   },
   {
     "date": "04/12/2015",
-    "deliverer": "Resto"
+    "deliverer": "resto"
   },
   {
     "date": "11/12/2015",
@@ -725,11 +725,11 @@
   },
   {
     "date": "25/12/2015",
-    "deliverer": "Père Noël"
+    "deliverer": "pere.noel"
   },
   {
     "date": "01/01/2016",
-    "deliverer": "Bonne année !"
+    "deliverer": "bonne.annee"
   },
   {
     "date": "08/01/2016",

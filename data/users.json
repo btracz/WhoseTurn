@@ -1,5 +1,35 @@
 [
   {
+    "id": "personne",
+    "name": "Personne",
+    "hasSubscribe": false,
+    "isExternal": false
+  },
+  {
+    "id": "helene",
+    "name": "Hélène",
+    "hasSubscribe": false,
+    "isExternal": false
+  },
+  {
+    "id": "resto",
+    "name": "Resto",
+    "hasSubscribe": false,
+    "isExternal": false
+  },
+  {
+    "id": "pere.noel",
+    "name": "Père Noël",
+    "hasSubscribe": false,
+    "isExternal": false
+  },
+  {
+    "id": "bonne.annee",
+    "name": "Bonne année !",
+    "hasSubscribe": false,
+    "isExternal": false
+  },
+  {
     "id": "benjamin.tracz",
     "name": "Benjamin",
     "hasSubscribe": true,
@@ -362,6 +392,12 @@
   {
     "id": "ayoub.mounji",
     "name": "Ayoub",
+    "hasSubscribe": true,
+    "isExternal": false
+  },
+  {
+    "id": "isabelle.pasquier2",
+    "name": "Isabelle",
     "hasSubscribe": true,
     "isExternal": false
   }
