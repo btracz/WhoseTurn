@@ -43,7 +43,7 @@ router.get('/parameters', auth, function (req, res) {
 });
 
 router.get('/planning', auth, function (req, res) {
-    res.render('admin/planning', {model: planningManager.getPlanning()});
+    res.render('admin/planning', {planning: planningManager.getPlanning(), subscribers: userManager.getSubscribers()});
 });
 
 router.get('/send-notification', function (req, res, next) {

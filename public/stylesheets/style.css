@@ -61,7 +61,7 @@ a {
     float: left;
 }
 
-#content {
+#content, #past-content {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -81,4 +81,9 @@ a {
 #sortable li span {
     position: relative;
     margin-left: -1.3em;
+}
+
+
+#sortable li span:hover{
+    cursor:grab;
 }
