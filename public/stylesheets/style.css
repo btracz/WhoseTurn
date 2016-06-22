@@ -87,3 +87,12 @@ a {
 #sortable li span:hover{
     cursor:grab;
 }
+
+#cron select.form-control {
+    width: 9em;
+    display: inline-block;
+}
+
+#cron select.form-control.minFormat{
+    width: 5em;
+}
