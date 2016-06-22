@@ -9,97 +9,102 @@
     <script src="../js/jquery-ui.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestion du planning</a>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Gestion du planning</a>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="/admin">Retour à l'accueil de la partie administration</a></li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/admin">Retour à l'accueil de la partie administration</a></li>
+            </ul>
         </div>
-        <!-- /.container-fluid -->
-    </nav>
-    <script>
-        $(function () {
-            $("#sortable").sortable({
-                cursor: "move"
-            });
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            cursor: "move"
         });
-    </script>
-    <%
-    function convertDeliveryStringToDate(input) {
-        var splitDate = input.split("/");
-        var month = parseInt(splitDate[1], 10) - 1;
-        return new Date(splitDate[2], month.toString(), splitDate[0]);
-    }
-
-    function getTodayDate() {
-        var now = new Date();
-        var dd = now.getDate();
-        var mm = now.getMonth(); //January is 0!
-        var yyyy = now.getFullYear();
-        return new Date(yyyy, mm, dd);
-    }
-
-    var previousDeliveries = planning.filter(function (item) {
-        return convertDeliveryStringToDate(item.date) < getTodayDate();
     });
+</script>
+<%
+function convertDeliveryStringToDate(input) {
+    var splitDate = input.split("/");
+    var month = parseInt(splitDate[1], 10) - 1;
+    return new Date(splitDate[2], month.toString(), splitDate[0]);
+}
 
-    var followingDeliveries = planning.filter(function (item) {
-        return convertDeliveryStringToDate(item.date) >= getTodayDate();
-    });
-    %>
-    <div class="contentDiv">
-        <ul id="past-content">
+function getTodayDate() {
+    var now = new Date();
+    var dd = now.getDate();
+    var mm = now.getMonth(); //January is 0!
+    var yyyy = now.getFullYear();
+    return new Date(yyyy, mm, dd);
+}
+
+var previousDeliveries = planning.filter(function (item) {
+    return convertDeliveryStringToDate(item.date) < getTodayDate();
+});
+
+var followingDeliveries = planning.filter(function (item) {
+    return convertDeliveryStringToDate(item.date) >= getTodayDate();
+});
+%>
+<main class="container">
+    <div class="contentDiv col-md-4">
+        <select id="past-content" multiple class="form-control" disabled>
             <% previousDeliveries.forEach(function(item) { %>
-            <li class="ui-state-default">
+            <option class="ui-state-default">
                 <%= item.date %> <%= item.deliverer.name %>
-            </li>
-            <% }) %>
-        </ul>
-    </div>
-
-    <div class="sortableDiv">
-        <ul id="sortable">
-            <% followingDeliveries.forEach(function(item) { %>
-
-            <li class="ui-state-default">
-            <span class="ui-icon ui-icon-arrowthick-2-n-s" value="<%= item.deliverer.id %>">
-                <%= item.deliverer.name %>
-            </span>
-                <button type="button" class="btn btn-default" title="Changer le livreur">
-                    <span class="glyphicon glyphicon-list"></span>
-                </button>
-                <button type="button" class="btn btn-default" title="Supprimer le livreur (remplacé par le suivant)">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-            </li>
-            <% }) %>
-        </ul>
-    </div>
-
-    <div class="contentDiv">
-        <ul id="content">
-            <% followingDeliveries.forEach(function(item) { %>
-            <li class="ui-state-default">
-                <%= item.date %>
-            </li>
-            <% }) %>
-        </ul>
-    </div>
-    <div>
-        <select id="deliverer-id">
-            <% subscribers.forEach(function(item) { %>
-            <option value="<%= item.id %>"><%= item.name %></option>
+            </option>
             <% }) %>
         </select>
-        <button type="button" class="btn btn-default" title="Ajouter une livraison">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
     </div>
+
+    <div class="col-md-8">
+        <div class="sortableDiv">
+            <ul id="sortable">
+                <% followingDeliveries.forEach(function(item) { %>
+
+                <li class="ui-state-default">
+                    <span class="ui-icon ui-icon-arrowthick-2-n-s" value="<%= item.deliverer.id %>">
+                        <%= item.deliverer.name %>
+                    </span>
+                    <button type="button" class="btn btn-default" title="Changer le livreur">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            title="Supprimer le livreur (remplacé par le suivant)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+
+        <div class="contentDiv">
+            <ul id="content">
+                <% followingDeliveries.forEach(function(item) { %>
+                <li class="ui-state-default">
+                    <%= item.date %>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+        <div>
+            <select id="deliverer-id">
+                <% subscribers.forEach(function(item) { %>
+                <option value="<%= item.id %>"><%= item.name %></option>
+                <% }) %>
+            </select>
+            <button type="button" class="btn btn-default" title="Ajouter une livraison">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+</main>
 </body>
 </html>

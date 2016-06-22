@@ -96,3 +96,13 @@ a {
 #cron select.form-control.minFormat{
     width: 5em;
 }
+
+#past-content option {
+    color: black;
+}
+
+#past-content {
+    background-color: white;
+    cursor: default;
+    height: 50em;
+}

@@ -1,7 +1,7 @@
 {
   "mailServer": {
-    "host": "",
-    "port": 587,
+    "host": "toto",
+    "port": "",
     "secure": false,
     "requireTLS": true,
     "auth": {
