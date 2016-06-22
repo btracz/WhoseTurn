@@ -2,29 +2,31 @@ $(window).load(function () {
     $('.carousel').carousel('pause');
 });
 
-$("#parametersForm button[type=button]").click(function (event) {
+$("#parametersForm button[type=button]").click(function () {
     var url = "/admin/parameters";
     var data = {
-        mailServer: {
-            host: $("#host").val(),
-            port: $("#port").val(),
-            secure: $("#secure").prop('checked'),
-            requireTLS: $("#tls").prop('checked'),
-            auth: {
-                user: $("#user").val(),
-                pass: $("#pass").val()
+        "mailServer": {
+            "host": $("#host").val(),
+            "port": $("#port").val(),
+            "secure": $("#secure").prop('checked'),
+            "requireTLS": $("#tls").prop('checked'),
+            "auth": {
+                "user": $("#user").val(),
+                "pass": $("#pass").val()
             }
         },
-        weeklyNotificationPattern: $('#cron').cron("value")
+        "weeklyNotificationPattern": $('#cron').cron("value")
     };
-    console.log(data);
     $.ajax({
+        contentType: "application/json",
         type: "POST",
         url: url,
-        data: data,
-        dataType: "json",
+        data: JSON.stringify(data),
         success: function (data) {
             console.log(data);
+        },
+        error: function (err) {
+            console.log(err);
         }
     });
 });

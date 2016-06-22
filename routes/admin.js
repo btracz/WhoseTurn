@@ -45,27 +45,22 @@ router.get('/parameters', auth, function (req, res) {
 router.post('/parameters', auth, function (req, res) {
     var data = req.body;
     var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-    console.log("ICI");
-    console.log(config);
-    console.log(data);
-    config.mailServer.host = data.mailServer.host;
-    config.mailServer.port = data.mailServer.port;
+    config.mailServer.host = data.mailServer.host || "";
+    config.mailServer.port = data.mailServer.port || "";
     config.mailServer.secure = data.mailServer.secure;
     config.mailServer.requireTLS = data.mailServer.requireTLS;
-    config.mailServer.auth.user = data.mailServer.auth.user;
-    config.mailServer.auth.pass = data.mailServer.auth.pass;
+    config.mailServer.auth.user = data.mailServer.auth.user || "";
+    config.mailServer.auth.pass = data.mailServer.auth.pass || "";
     config.weeklyNotificationPattern = data.weeklyNotificationPattern;
-    console.log("LA");
     fs.writeFileSync(configFile, JSON.stringify(config), 'utf8');
-    console.log("Write");
-    res.status(200).send(config);
+    res.status(200).send("ok");
 });
 
 router.get('/planning', auth, function (req, res) {
     res.render('admin/planning', {planning: planningManager.getPlanning(), subscribers: userManager.getSubscribers()});
 });
 
-router.get('/send-notification', function (req, res, next) {
+router.get('/send-notification', function (req, res) {
     mailer.sendWeeklyNotification().then(function (value) {
         res.status(200).send(value);
     }, function (reason) {
