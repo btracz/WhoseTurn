@@ -400,5 +400,23 @@
     "name": "Isabelle",
     "hasSubscribe": true,
     "isExternal": false
+  },
+  {
+    "id": "panagiotes.neiros",
+    "name": "Panagiotes",
+    "hasSubscribe": true,
+    "isExternal": true
+  },
+  {
+    "id": "laetitia.bourda",
+    "name": "Laetitia",
+    "hasSubscribe": true,
+    "isExternal": false
+  },
+  {
+    "id": "baptiste.stievenard",
+    "name": "Baptiste",
+    "hasSubscribe": true,
+    "isExternal": false
   }
 ]
