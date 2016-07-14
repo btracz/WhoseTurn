@@ -11,7 +11,8 @@
 
 <body>
 <main class="container">
-    <h1 class="text-center">Paramètre :</h1>
+    <a href="/admin">↩ Accueil Administration</a>
+    <h1 class="text-center">Paramètres :</h1>
 
     <form id="parametersForm" action="#" method="post" class="form-horizontal">
         <fieldset>
@@ -39,6 +40,13 @@
                         <input id="tls" type="checkbox" <%= config.mailServer.requireTLS ? 'checked' : '' %>> Chiffrement TLS
                     </label>
                 </div>
+            </div>
+            <div class="form-group">
+              <label for="sender" class="col-sm-2 control-label">Expéditeur : </label>
+
+              <div class="col-sm-10">
+                <input id="sender" type="text" class="form-control" value="<%= config.mailSender %>"/>
+              </div>
             </div>
             <div class="form-group">
                 <label for="user" class="col-sm-2 control-label">User : </label>

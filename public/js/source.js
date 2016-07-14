@@ -15,6 +15,7 @@ $("#parametersForm button[type=button]").click(function () {
                 "pass": $("#pass").val()
             }
         },
+        "mailSender": $("#sender").val(),
         "weeklyNotificationPattern": $('#cron').cron("value")
     };
     $.ajax({
