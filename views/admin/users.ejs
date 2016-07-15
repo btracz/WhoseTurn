@@ -22,26 +22,46 @@
   </div>
   <!-- /.container-fluid -->
 </nav>
+<form id="usersForm" action="#" method="post" class="form-horizontal">
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="button" class="btn btn-default">Sauver</button>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Identifiant</th>
+      <th>Nom</th>
+      <th>Abonné ?</th>
+      <th>Externe ?</th>
+      <th>Avatar</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><input id="newUserId" type="text"/></td>
+      <td><input id="newUserName" type="text"/></td>
+      <td><input id="newUserHasSubscribe" type="checkbox"/></td>
+      <td><input id="newUserIsExternal" type="checkbox"/></td>
+      <td><button id="addUserButton" type="button" class="btn btn-default">Ajouter</button></td>
+    </tr>
+    <% users.forEach(function(user) { %>
+    <!-- http://jsfiddle.net/B4kAW/4/-->
+    <tr class="user" id="<%= user.id %>">
+      <td><%= user.id %></td>
+      <td><%= user.name %></td>
+      <td><input type="checkbox" <%= user.hasSubscribe ? 'checked' : '' %>></td>
+      <td><input type="checkbox" <%= user.isExternal ? 'checked' : '' %>></td>
+      <td><%= user.avatar %></td>
+    </tr>
+    <% }) %>
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Identifiant</th>
-    <th>Nom</th>
-    <th>Abonné ?</th>
-    <th>Externe ?</th>
-    <th>Avatar</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% users.forEach(function(user) { %>
-  <tr>
-    <td><%= user.id %></td>
-    <td><%= user.name %></td>
-    <td><input type="checkbox" <%= user.hasSubscribe ? 'checked' : '' %>></td>
-    <td><input type="checkbox" <%= user.isExternal ? 'checked' : '' %>></td>
-    <td><%= user.avatar %></td>
-  </tr>
-  <% }) %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</form>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/source.js"></script>
+</body>
+</html>

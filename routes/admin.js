@@ -37,6 +37,18 @@ router.get('/users', auth, function (req, res) {
     res.render('admin/users', {title: "Gestion des utilisateurs", users: users});
 });
 
+router.post('/users', auth, function (req, res) {
+    var users = req.body;
+    userManager.updateUsers(users);
+    res.status(200).send("ok");
+});
+
+router.post('/user', auth, function (req, res) {
+    var newUser = req.body;
+    userManager.addUser(newUser);
+    res.status(200).send("ok");
+});
+
 router.get('/parameters', auth, function (req, res) {
     var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
     res.render('admin/parameters', {title: "Paramétrage de l'application", config: config});
