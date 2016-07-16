@@ -39,9 +39,9 @@ router.get('/users', auth, function (req, res) {
     res.render('admin/users', {title: "Gestion des utilisateurs", users: users});
 });
 
-router.post('/users', auth, function (req, res) {
-    var users = req.body;
-    userManager.updateUsers(users);
+router.put('/user', auth, function (req, res) {
+    var user = req.body;
+    userManager.updateUser(user);
     res.status(200).send("ok");
 });
 

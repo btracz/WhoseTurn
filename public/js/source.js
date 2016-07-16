@@ -150,3 +150,39 @@ $('#avatarFile').on('change', function (e) {
 
     $("#uploadAvatarButton").attr("disabled", false);
 });
+
+$(".userEditButton").button().on("click", function () {
+    var login = this.parentNode.parentNode.id.replace('Row', '');
+    $('tr[id="' + login + 'Row"]').hide();
+    $('tr[id="' + login + 'Form"]').show();
+});
+
+$(".userEditCancelButton").button().on("click", function () {
+    var login = this.parentNode.parentNode.id.replace('Form', '');
+    $('tr[id="' + login + 'Form"]').hide();
+    $('tr[id="' + login + 'Row"]').show();
+});
+
+$(".userEditSaveButton").button().on("click", function () {
+    var login = this.parentNode.parentNode.id.replace('Form', '');
+    var url = "/admin/user";
+    var data = {
+        "id": login,
+        "name": $('tr[id="' + login + 'Form"] input[id="name"]').val(),
+        "hasSubscribe": $('tr[id="' + login + 'Form"] input[id="hasSubscribe"]').prop('checked'),
+        "isExternal": $('tr[id="' + login + 'Form"] input[id="isExternal"]').prop('checked')
+    };
+    $.ajax({
+        contentType: "application/json",
+        type: "PUT",
+        url: url,
+        data: JSON.stringify(data),
+        success: function (data) {
+            location.reload();
+        },
+        error: function (err) {
+            alert("Erreur, veuillez réessayer \n" + JSON.stringify(err));
+            location.reload();
+        }
+    });
+});

@@ -14,7 +14,8 @@ module.exports = {
     getUser: getUser,
     getAvatar: getAvatar,
     addUser: addUser,
-    updateUsers: updateUsers
+    updateUsers: updateUsers,
+    updateUser: updateUser
 };
 
 var usersCache;
@@ -125,8 +126,8 @@ function addUser(user) {
     var index = getUserIndex(user.id);
     if (index == -1) {
         users.push(user);
+        saveUsers(users);
     }
-    saveUsers(users);
 }
 
 function updateUsers(data) {
@@ -149,4 +150,15 @@ function updateUsers(data) {
     });
     saveUsers(users);
     return users;
+}
+
+function updateUser(data){
+    var users = getUsers();
+    var index = getUserIndex(data.id);
+    if (index > -1) {
+        users[index].name = data.name;
+        users[index].hasSubscribe = data.hasSubscribe;
+        users[index].isExternal = data.isExternal;
+        saveUsers(users);
+    }
 }
