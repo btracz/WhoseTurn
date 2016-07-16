@@ -3,8 +3,10 @@ var userManager = require('../src/users');
 var planningManager = require('../src/planning');
 var router = express.Router();
 var mailer = require("../src/mailer");
+var formidable = require('formidable');
 var configFile = './config.json';
 var fs = require('fs');
+var path = require('path');
 
 /*Authentification*/
 var basicAuth = require('basic-auth');
@@ -41,6 +43,32 @@ router.post('/users', auth, function (req, res) {
     var users = req.body;
     userManager.updateUsers(users);
     res.status(200).send("ok");
+});
+
+router.post('/avatar/:login', auth, function (req, res) {
+    var login = req.params.login;
+    console.log('Upload de l\'avatar de ' + login);
+    // create an incoming form object
+    var form = new formidable.IncomingForm();
+    // specify that we want to allow the user to upload multiple files in a single request
+    form.multiples = true;
+    // store all uploads in the /uploads directory
+    form.uploadDir = path.join(__dirname, '../public/images/');
+    // every time a file has been uploaded successfully,
+    // rename it to it's orignal name
+    form.on('file', function(field, file) {
+        fs.rename(file.path, path.join(form.uploadDir, login + '.jpg'));
+    });
+    // log any errors that occur
+    form.on('error', function(err) {
+        console.log('Erreur : \n' + err);
+    });
+    // once all the files have been uploaded, send a response to the client
+    form.on('end', function() {
+        res.end('success');
+    });
+    // parse the incoming request containing the form data
+    form.parse(req);
 });
 
 router.post('/user', auth, function (req, res) {
