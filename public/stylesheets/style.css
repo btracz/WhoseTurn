@@ -61,7 +61,7 @@ a {
     float: left;
 }
 
-#content, #past-content {
+#dates, #past-content {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -76,15 +76,18 @@ a {
 #sortable li {
     padding-left: 7em;
     width: 300px;
+    height: 25px;
 }
-
-#sortable li span {
-    position: relative;
-    margin-left: -1.3em;
+#sortable li .delivererName{
+    font-size: 1.2em;
 }
-
 #sortable li span:hover {
     cursor: grab;
+}
+
+#dates li {
+    height: 25px;
+    font-size: 1.2em;
 }
 
 #cron select.form-control {
@@ -118,6 +121,12 @@ a {
     padding: 0;
 }
 
-.userEditForm{
+.userEditForm {
+    display: none;
+}
+
+.changeDelivererList,
+.saveDelivererButton,
+.cancelDelivererButton {
     display: none;
 }
