@@ -78,9 +78,11 @@ a {
     width: 300px;
     height: 25px;
 }
-#sortable li .delivererName{
+
+#sortable li .delivererName {
     font-size: 1.2em;
 }
+
 #sortable li span:hover {
     cursor: grab;
 }
@@ -129,4 +131,28 @@ a {
 .saveDelivererButton,
 .cancelDelivererButton {
     display: none;
+}
+
+.followingDate {
+    font-size: 1.2em;
+    float: left;
+}
+
+.followingDeliverer {
+    float: left;
+    margin-left: 17px;
+}
+
+.addDelivery {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid lightgrey;
+}
+
+.saveDiv {
+    margin-bottom: 15px;
+}
+
+#savePlanning {
+    margin-left: 14px;
 }

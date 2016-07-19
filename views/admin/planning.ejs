@@ -63,13 +63,15 @@ var followingDeliveries = planning.filter(function (item) {
       <% }) %>
     </select>
   </div>
-
+  <div class="saveDiv">
+    <button type="button" class="btn btn-success" title="Enregistrer l'ordre" id="savePlanning">Sauvegarder</button>
+  </div>
   <div class="col-md-8">
     <div class="sortableDiv">
       <ul id="sortable">
-        <% followingDeliveries.forEach(function(item) { %>
+        <% followingDeliveries.forEach(function(item, index) { %>
 
-        <li class="ui-state-default" id="<%= item.date %>">
+        <li class="ui-state-default" id="<%= index %>">
           <span class="glyphicon glyphicon-resize-vertical"></span>
           <button type="button" class="btn btn-default btn-xs deleteDelivererButton"
                   title="Supprimer le livreur (remplacé par le suivant)">
@@ -107,15 +109,20 @@ var followingDeliveries = planning.filter(function (item) {
       </ul>
     </div>
   </div>
-  <div class="addDelivery">
-    <button type="button" class="btn btn-default btn-xs" title="Ajouter une livraison">
-      <span class="glyphicon glyphicon-plus"></span>
-    </button>
-    <select id="deliverer-id">
-      <% subscribers.forEach(function(item) { %>
-      <option value="<%= item.id %>"><%= item.name %></option>
-      <% }) %>
-    </select>
+  <div class="col-md-3 addDelivery">
+    <span class="followingDate">
+      <%= followingDeliveryDate %>
+    </span>
+    <div class="followingDeliverer">
+      <button type="button" class="btn btn-default btn-xs" title="Ajouter une livraison" id="addDeliveryBtn">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+      <select id="deliverer-id">
+        <% subscribers.forEach(function(item) { %>
+        <option value="<%= item.id %>" <% if (item.id == followingDeliverer.id) { %>selected<% } %>><%= item.name %></option>
+        <% }) %>
+      </select>
+    </div>
   </div>
 </main>
 <script src="/js/planning.js"></script>

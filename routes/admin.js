@@ -56,15 +56,15 @@ router.post('/avatar/:login', auth, function (req, res) {
     form.uploadDir = path.join(__dirname, '../public/images/');
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name
-    form.on('file', function(field, file) {
+    form.on('file', function (field, file) {
         fs.rename(file.path, path.join(form.uploadDir, login + '.jpg'));
     });
     // log any errors that occur
-    form.on('error', function(err) {
+    form.on('error', function (err) {
         console.log('Erreur : \n' + err);
     });
     // once all the files have been uploaded, send a response to the client
-    form.on('end', function() {
+    form.on('end', function () {
         res.end('success');
     });
     // parse the incoming request containing the form data
@@ -98,7 +98,21 @@ router.post('/parameters', auth, function (req, res) {
 });
 
 router.get('/planning', auth, function (req, res) {
-    res.render('admin/planning', {planning: planningManager.getPlanning(), subscribers: userManager.getSubscribers()});
+    res.render('admin/planning', {
+        planning: planningManager.getPlanning(),
+        subscribers: userManager.getSubscribers(),
+        followingDeliverer: planningManager.getFollowingDeliverer(),
+        followingDeliveryDate: planningManager.getFollowingDeliveryDate()
+    });
+});
+
+router.post('/planning/update', auth, function (req, res) {
+    try {
+        planningManager.updatePlanning(req.body);
+        res.status(200).send("ok");
+    } catch (ex) {
+        res.status(500).send(ex);
+}
 });
 
 router.get('/send-notification', function (req, res) {
