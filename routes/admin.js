@@ -111,7 +111,8 @@ router.post('/planning/update', auth, function (req, res) {
         planningManager.updatePlanning(req.body);
         res.status(200).send("ok");
     } catch (ex) {
-        res.status(500).send(ex);
+        console.log(ex.stack);
+        res.status(500).send(ex.stack);
 }
 });
 

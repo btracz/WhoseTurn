@@ -31,7 +31,6 @@ function startNotificationScheduling() {
  */
 function sendWeeklyNotification() {
     var deferred = Q.defer();
-
     var nextDeliveries = planning.actualAndNextDeliverer();
     var notification = new EmailTemplate(path.join(__dirname, '../mails/weeklyNotification'));
     notification.render({deliveries: nextDeliveries}, function (err, result) {
@@ -50,6 +49,7 @@ function sendWeeklyNotification() {
                 "Rappels petits pains",
                 result.html).then(function (result) {
                     console.log("Notification hebdomadaire réussie");
+                    planning.createFollowingDelivery();
                     deferred.resolve(result);
                 }).catch(function (error) {
                     console.log("Notification hebdomadaire échouée, raison : " + error);

@@ -39,7 +39,7 @@ function getDateIndex(date, planning) {
     if (matchingDate.length >= 1) {
         return dateIndex;
     } else {
-        console.log('Aucune date correspondant à ' + id);
+        console.log('Aucune date correspondant à ' + date);
         return dateIndex;
     }
 }
@@ -108,7 +108,7 @@ function createFollowingDelivery() {
 function getFollowingDelivery() {
     return {
         date: getFollowingDeliveryDate(),
-        deliverer: getFollowingDeliverer().id
+        deliverer: getFollowingDeliverer()
     };
 }
 

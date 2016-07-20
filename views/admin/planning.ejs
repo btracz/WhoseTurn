@@ -26,7 +26,10 @@
 <script>
   $(function () {
     $("#sortable").sortable({
-      cursor: "move"
+      cursor: "move",
+      update: function(event, ui) {
+        $('#savePlanning').prop('disabled', false);
+      }
     });
   });
 </script>
@@ -64,7 +67,7 @@ var followingDeliveries = planning.filter(function (item) {
     </select>
   </div>
   <div class="saveDiv">
-    <button type="button" class="btn btn-success" title="Enregistrer l'ordre" id="savePlanning">Sauvegarder</button>
+    <button type="button" class="btn btn-success" title="Enregistrer l'ordre" id="savePlanning" disabled>Sauvegarder</button>
   </div>
   <div class="col-md-8">
     <div class="sortableDiv">
