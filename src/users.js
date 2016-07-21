@@ -15,7 +15,8 @@ module.exports = {
     getAvatar: getAvatar,
     addUser: addUser,
     updateUsers: updateUsers,
-    updateUser: updateUser
+    updateUser: updateUser,
+    refreshUsersCache: refreshUsersCache
 };
 
 var usersCache;

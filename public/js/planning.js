@@ -54,7 +54,6 @@ $(".saveDelivererButton").button().on("click", function () {
 });
 
 $('#savePlanning').on('click', function () {
-    alert('click !');
     var planning = convertListToArray();
     $.ajax({
         contentType: "application/json",

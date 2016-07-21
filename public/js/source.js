@@ -104,7 +104,7 @@ var avatarDialog = $("#dialog-avatar-form").dialog({
             }).error(function () {
                 $("body").css("cursor", "default");
                 avatarUploadButtonsActive(true);
-                alert('Erreur, veuillez réessayer.');
+                alert('Erreur, veuillez rï¿½essayer.');
             });
         }
     },
@@ -135,7 +135,7 @@ function avatarUploadButtonsActive(active) {
 }
 
 $(".avatarChangeButton").button().on("click", function () {
-    avatarDialog.data('login', this.parentNode.parentNode.id);
+    avatarDialog.data('login', this.parentNode.parentNode.id.replace('Row', ''));
     avatarDialog.dialog("open");
 });
 
@@ -181,7 +181,7 @@ $(".userEditSaveButton").button().on("click", function () {
             location.reload();
         },
         error: function (err) {
-            alert("Erreur, veuillez réessayer \n" + JSON.stringify(err));
+            alert("Erreur, veuillez rï¿½essayer \n" + JSON.stringify(err));
             location.reload();
         }
     });

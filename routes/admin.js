@@ -69,6 +69,8 @@ router.post('/avatar/:login', auth, function (req, res) {
     });
     // parse the incoming request containing the form data
     form.parse(req);
+
+    userManager.refreshUsersCache();
 });
 
 router.post('/user', auth, function (req, res) {
