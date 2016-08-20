@@ -18,7 +18,14 @@
                 <li><a href="/admin/parameters">Paramètres</a></li>
                 <li><a href="/admin/users">Gérer les utilisateurs</a></li>
                 <li><a href="/admin/planning">Editer le planning</a></li>
-                <li><a href="/admin/send-notification">Envoyer le mail hebdo</a></li>
+                <li><a href="#" onclick="confirmSend()">Envoyer le mail hebdo</a></li>
+                <script>
+                  function confirmSend() {
+                    if (window.confirm("Confimer l\'envoi du mail ?")) {
+                      document.location.href = "/admin/send-notification";
+                    }
+                  }
+                </script>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
