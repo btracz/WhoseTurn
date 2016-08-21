@@ -50,6 +50,15 @@
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
+        <script>
+          $(document).keydown( function(eventObject) {
+            if(eventObject.which==37) {//left arrow
+              $('#carousel-example-generic .left').click();
+            } else if(eventObject.which==39) {//right arrow
+              $('#carousel-example-generic .right').click();
+            }
+          } );
+        </script>
     </div>
 </div>
 
