@@ -92,12 +92,12 @@ a {
     font-size: 1.2em;
 }
 
-#cron select.form-control {
+.cron select.form-control {
     width: 9em;
     display: inline-block;
 }
 
-#cron select.form-control.minFormat {
+.cron select.form-control.minFormat {
     width: 5em;
 }
 

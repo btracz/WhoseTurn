@@ -100,6 +100,8 @@ router.post('/parameters', auth, function (req, res) {
     config.mailServer.auth.user = data.mailServer.auth.user || "";
     config.mailServer.auth.pass = data.mailServer.auth.pass || "";
     config.weeklyNotificationPattern = data.weeklyNotificationPattern;
+    config.pollStartPattern = data.pollStartPattern;
+    config.pollEndPattern = data.pollEndPattern;
     fs.writeFileSync(configFile, JSON.stringify(config, null, 4), 'utf8');
     mailer.refreshSMTPClientConfig();
     mailer.refreshTaskPatterns();

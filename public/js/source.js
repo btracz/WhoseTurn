@@ -18,7 +18,9 @@ $("#parametersForm button[type=button]").click(function () {
             }
         },
         "mailSender": $("#sender").val(),
-        "weeklyNotificationPattern": $('#cron').cron("value")
+        "weeklyNotificationPattern": $('#cron1').cron("value"),
+        "pollStartPattern": $('#cron2').cron("value"),
+        "pollEndPattern": $('#cron3').cron("value")
     };
     $.ajax({
         contentType: "application/json",
