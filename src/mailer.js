@@ -8,7 +8,7 @@ var planning = require("./planning");
 var scheduler = require("./scheduler");
 var users = require("./users");
 
-// A mettre en config
+// Création du client SMTP
 var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 
 module.exports = {
@@ -62,6 +62,9 @@ function sendWeeklyNotification() {
     return deferred.promise;
 }
 
+/*
+ * Recrée un client un SMTP à partir de la configuration
+ */
 function refreshSMTPClientConfig(){
     smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 }
