@@ -1,12 +1,15 @@
 var express = require('express');
 var userManager = require('../src/users');
 var planningManager = require('../src/planning');
+var pollManager = require('../src/polling');
 var router = express.Router();
 var mailer = require("../src/mailer");
 var formidable = require('formidable');
 var configFile = './config.json';
 var fs = require('fs');
 var path = require('path');
+var moment = require('moment-timezone');
+moment.locale('fr');
 
 /*Authentification*/
 var basicAuth = require('basic-auth');
@@ -112,6 +115,43 @@ router.get('/planning', auth, function (req, res) {
     });
 });
 
+router.get('/poll', auth, function (req, res) {
+    var respondents;
+    var presCount = 0;
+    var absCount = 0;
+    var noRespCount = 0;
+
+    var openedPoll = pollManager.getOpenPoll();
+    if (openedPoll) {
+        respondents = [];
+        openedPoll.respondents.forEach(function (resp) {
+            respondents.push({
+                name: userManager.getUser(resp.id).name,
+                status: resp.status,
+                dateText: resp.answerDate ? moment(resp.answerDate).tz("Europe/Paris").format("DD/MM/YYYY HH:mm:ss") : '-'
+            });
+        });
+
+        // Calcul résultats
+        var presents = openedPoll.respondents.filter(function (resp) {
+            return resp.status === true;
+        });
+        presCount = presents ? presents.length : 0;
+
+        var absents = openedPoll.respondents.filter(function (resp) {
+            return resp.status === false;
+        });
+        absCount = absents ? absents.length : 0;
+        noRespCount = openedPoll.respondents.length - presCount - absCount;
+    }
+    res.render('admin/poll', {
+        respondents: respondents,
+        presentCount: presCount,
+        noResponseCount: noRespCount,
+        absentCount: absCount
+    });
+});
+
 router.post('/planning/update', auth, function (req, res) {
     try {
         planningManager.updatePlanning(req.body);
@@ -119,7 +159,7 @@ router.post('/planning/update', auth, function (req, res) {
     } catch (ex) {
         console.log(ex.stack);
         res.status(500).send(ex.stack);
-}
+    }
 });
 
 router.get('/send-notification', function (req, res) {

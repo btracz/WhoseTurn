@@ -12,6 +12,7 @@ module.exports = {
     createPoll: createPoll,
     setPollResponse: setPollResponse,
     getPoll: getPoll,
+    getOpenPoll: getOpenPoll,
     closePoll: closePoll
 };
 
@@ -52,6 +53,16 @@ function getPoll(date) {
         return polls[index];
     } else {
         return null;
+    }
+}
+
+function getOpenPoll() {
+    var openPolls = polls.filter(function (poll) {
+        return poll.open;
+    });
+
+    if (openPolls && openPolls.length > 0) {
+        return openPolls[0];
     }
 }
 
@@ -99,7 +110,7 @@ function createPoll(delivery, respondents) {
 function setPollResponse(guid, answer) {
     var idxs = findPollFromGuid(guid);
     var isAnwserBoolean = (answer == 'true' || answer == 'false');
-    if(isAnwserBoolean){
+    if (isAnwserBoolean) {
         polls[idxs.pollIdx].respondents[idxs.respondentIdx].status = (answer == 'true');
         polls[idxs.pollIdx].respondents[idxs.respondentIdx].answerDate = new Date();
         savePolls();
@@ -115,12 +126,12 @@ function findPollFromGuid(guid) {
         respondentIdx: -1
     };
 
-    var pollIndex =_.findIndex(polls, function(poll){
-        var respondentIndex = _.findIndex(poll.respondents, function(respondent){
+    var pollIndex = _.findIndex(polls, function (poll) {
+        var respondentIndex = _.findIndex(poll.respondents, function (respondent) {
             return respondent.guid == guid;
         });
 
-        if(respondentIndex >= 0){
+        if (respondentIndex >= 0) {
             response.respondentIdx = respondentIndex;
             return true;
         } else {
@@ -128,9 +139,9 @@ function findPollFromGuid(guid) {
         }
     });
 
-    if(pollIndex >= 0){
+    if (pollIndex >= 0) {
         response.pollIdx = pollIndex;
-        if(polls[pollIndex].open){
+        if (polls[pollIndex].open) {
             return response;
         } else {
             throw new Error("Sondage Fermé");
