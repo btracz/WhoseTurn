@@ -13,7 +13,8 @@ var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 
 module.exports = {
     sendWeeklyNotification: sendWeeklyNotification,
-    startNotificationScheduling: startNotificationScheduling
+    startNotificationScheduling: startNotificationScheduling,
+    refreshSMTPClientConfig: refreshSMTPClientConfig
 };
 
 /**
@@ -59,6 +60,10 @@ function sendWeeklyNotification() {
     });
 
     return deferred.promise;
+}
+
+function refreshSMTPClientConfig(){
+    smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 }
 
 /**

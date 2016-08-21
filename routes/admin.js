@@ -98,6 +98,7 @@ router.post('/parameters', auth, function (req, res) {
     config.mailServer.auth.pass = data.mailServer.auth.pass || "";
     config.weeklyNotificationPattern = data.weeklyNotificationPattern;
     fs.writeFileSync(configFile, JSON.stringify(config, null, 4), 'utf8');
+    mailer.refreshSMTPClientConfig();
     res.status(200).send("ok");
 });
 
