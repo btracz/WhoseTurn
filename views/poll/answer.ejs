@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+</head>
+<body>
+  <% if(success) {%>
+    <h1>Merci d'avoir répondu</h1>
+    <p>Votre choix a bien été pris en compte.</p>
+  <% } else { %>
+  <h1>Echec</h1>
+  <p>Malheureusement, la validation de votre choix a échoué. <b>(<%= reason %>)</b></p>
+  <% } %>
+</body>
+</html>
