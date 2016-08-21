@@ -5,26 +5,38 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 var config = require("./config");
 var planning = require("./planning");
+var pollManager = require("./polling");
 var scheduler = require("./scheduler");
 var users = require("./users");
+var later = require("later");
+var moment = require("moment-timezone");
+moment.locale('fr');
+later.date.localTime();
 
 // Création du client SMTP
 var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
+var weeklyNotificationTaskName = "WeeklyNotification";
+var startPollTaskName = "PollStart";
+var endPollTaskName = "PollEnd";
 
 module.exports = {
     sendWeeklyNotification: sendWeeklyNotification,
-    startNotificationScheduling: startNotificationScheduling,
-    refreshSMTPClientConfig: refreshSMTPClientConfig
+    startNotificationsScheduling: startNotificationsScheduling,
+    refreshSMTPClientConfig: refreshSMTPClientConfig,
+    refreshTaskPatterns: refreshTaskPatterns
 };
 
 /**
- * Démarrage de l'ordonnanceur pour la notification hebdomadaire.
- * @param config : string - configuration du micro-service
+ * Démarrage de l'ordonnanceur pour les taches hebdomadaire.
  */
-function startNotificationScheduling() {
+function startNotificationsScheduling() {
     console.log("lancement de l'ordonnanceur");
-    scheduler.createJob("WeeklyNotification", config.weeklyNotificationPattern(), sendWeeklyNotification);
-    scheduler.startTask("WeeklyNotification");
+    scheduler.createJob(weeklyNotificationTaskName, config.weeklyNotificationPattern(), sendWeeklyNotification);
+    scheduler.startTask(weeklyNotificationTaskName);
+    scheduler.createJob(startPollTaskName, config.pollStartPattern(), createPoll);
+    scheduler.startTask(startPollTaskName);
+    scheduler.createJob(endPollTaskName, config.pollEndPattern(), endPoll);
+    scheduler.startTask(endPollTaskName);
 }
 
 /**
@@ -41,7 +53,7 @@ function sendWeeklyNotification() {
         } else {
             var mails = [""];
 
-            if(process.env.NODE_ENV === "production"){
+            if (process.env.NODE_ENV === "production") {
                 mails = users.getSubscribersMails();
             }
             console.log("abonnés : " + mails.join(";"));
@@ -62,11 +74,115 @@ function sendWeeklyNotification() {
     return deferred.promise;
 }
 
-/*
+/**
+ * Crée un nouveau sondage et envoie
+ */
+function createPoll() {
+    var deferred = Q.defer();
+    var nextDeliv = planning.actualAndNextDeliverer()[0];
+    var subscribers = users.getSubscribers();
+    var poll = pollManager.createPoll(nextDeliv, subscribers);
+    var cron = later.parse.cron(config.pollEndPattern(), false);
+    var pollClose = later.schedule(cron).next(1);
+    poll.respondents.forEach(function (respondent) {
+        var recipient = users.getUserMail(respondent.id);
+        var pollTemplate = new EmailTemplate(path.join(__dirname, '../mails/polling'));
+        pollTemplate.render(
+            {
+                delivery: {
+                    dateText: moment(nextDeliv.date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM")
+                },
+                guid: respondent.guid,
+                poll: {
+                    closingDateText: moment(pollClose).tz("Europe/Paris").format("dddd Do MMMM [à] H[h]mm")
+                }
+            },
+            function (err, result) {
+                if (err) {
+                    console.log("Erreur lors de la création du mail de sondage, raison : " + err);
+                    deferred.reject(err);
+                } else {
+                    console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
+                    sendMail(recipient,
+                        "Sondage petits pains",
+                        result.html).then(function (result) {
+                            console.log("Sondage de " + respondent.id + " envoyé");
+                            deferred.resolve(result);
+                        }).catch(function (error) {
+                            console.log("Sondage de " + respondent.id + " échoué, raison : " + error);
+                            deferred.reject(error);
+                        });
+                }
+            });
+    });
+
+    return deferred.promise;
+}
+
+/**
+ * Crée un nouveau sondage et envoie
+ */
+function endPoll() {
+    var deferred = Q.defer();
+    var nextDeliv = planning.actualAndNextDeliverer()[0];
+    var poll = pollManager.closePoll(nextDeliv.date);
+
+    // Calcul résultats
+    var presents = poll.respondents.filter(function(resp){
+        return resp.status === true;
+    });
+    var presCount = presents ? presents.length : 0;
+
+    var absents = poll.respondents.filter(function(resp){
+        return resp.status === false;
+    });
+    var absCount = absents ? absents.length : 0;
+    var noRespCount = poll.respondents.length - presCount - absCount;
+
+    var recipient = users.getUserMail(poll.deliverer);
+    var pollResultTemplate = new EmailTemplate(path.join(__dirname, '../mails/poll-result'));
+    pollResultTemplate.render(
+        {
+            deliveryDateText: moment(nextDeliv.date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM"),
+            presentCount: presCount,
+            noResponseCount: noRespCount,
+            absentCount: absCount
+        },
+        function (err, result) {
+            if (err) {
+                console.log("Erreur lors de la création du mail de résultat du sondage, raison : " + err);
+                deferred.reject(err);
+            } else {
+                console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
+                sendMail(recipient,
+                    "Résultat sondage petits pains",
+                    result.html).then(function (result) {
+                        console.log("Résultat du sondage du " + nextDeliv.date + " envoyé à " + recipient);
+                        deferred.resolve(result);
+                    }).catch(function (error) {
+                        console.log("Résultat du sondage du " + nextDeliv.date + " échoué, raison : " + error);
+                        deferred.reject(error);
+                    });
+            }
+        });
+
+    return deferred.promise;
+}
+
+/**
  * Recrée un client un SMTP à partir de la configuration
  */
-function refreshSMTPClientConfig(){
+function refreshSMTPClientConfig() {
     smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
+}
+
+/**
+ * Met à jour les patterns de toutes les tâches
+ */
+function refreshTaskPatterns() {
+    scheduler.updateTaskOnCronChange(weeklyNotificationTaskName, config.weeklyNotificationPattern());
+    scheduler.updateTaskOnCronChange(startPollTaskName, config.pollStartPattern());
+    scheduler.updateTaskOnCronChange(endPollTaskName, config.pollEndPattern());
 }
 
 /**

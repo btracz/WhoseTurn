@@ -33,7 +33,7 @@ server.on('listening', onListening);
 
 // Démarrage de l'ordonnaceur de notification
 var mailer = require("../src/mailer");
-mailer.startNotificationScheduling();
+mailer.startNotificationsScheduling();
 
 /**
  * Normalize a port into a number, string, or false.

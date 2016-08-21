@@ -99,6 +99,7 @@ router.post('/parameters', auth, function (req, res) {
     config.weeklyNotificationPattern = data.weeklyNotificationPattern;
     fs.writeFileSync(configFile, JSON.stringify(config, null, 4), 'utf8');
     mailer.refreshSMTPClientConfig();
+    mailer.refreshTaskPatterns();
     res.status(200).send("ok");
 });
 

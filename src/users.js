@@ -12,6 +12,7 @@ module.exports = {
     getSubscribers: getSubscribers,
     getSubscribersMails: getSubscribersMails,
     getUser: getUser,
+    getUserMail: getUserMail,
     getAvatar: getAvatar,
     addUser: addUser,
     updateUsers: updateUsers,
@@ -30,7 +31,7 @@ function getUsers() {
     }
 }
 
-function refreshUsersCache(){
+function refreshUsersCache() {
     var users = JSON.parse(fs.readFileSync(userFile, 'utf8'));
     users.forEach(function (user) {
         user.avatar = getAvatar(user.id);
@@ -41,7 +42,7 @@ function refreshUsersCache(){
 function saveUsers(users) {
     var usersToSave = [];
 
-    users.forEach(function(user){
+    users.forEach(function (user) {
         usersToSave.push(_.omit(user, 'avatar'));
     });
 
@@ -87,6 +88,17 @@ function getUser(id) {
         console.log('Aucun utilisateur correspondant à ' + id);
         return {"name": id};
     }
+}
+
+function getUserMail(id) {
+    var user = getUser(id);
+    if (user && user.isExternal) {
+        return config.externalMailFormat().replace("{0}", user.id);
+    } else if (user) {
+        return config.mailFormat().replace("{0}", user.id);
+    }
+
+    return '';
 }
 
 function getUserIndex(id) {
@@ -153,7 +165,7 @@ function updateUsers(data) {
     return users;
 }
 
-function updateUser(data){
+function updateUser(data) {
     var users = getUsers();
     var index = getUserIndex(data.id);
     if (index > -1) {

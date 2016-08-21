@@ -10,6 +10,8 @@ module.exports = {
     mailSender: getMailSender,
     mailServer: getMailServer,
     weeklyNotificationPattern: getWeeklyNotificationPattern,
+    pollStartPattern: getPollStartPattern,
+    pollEndPattern: getPollEndPattern,
     mailFormat: getMailFormat,
     externalMailFormat: getExternalMailFormat
 };
@@ -31,6 +33,16 @@ function getMailServer(){
 function getWeeklyNotificationPattern(){
     var config = getFullConfig();
     return config.weeklyNotificationPattern;
+}
+
+function getPollStartPattern(){
+    var config = getFullConfig();
+    return config.pollStartPattern;
+}
+
+function getPollEndPattern(){
+    var config = getFullConfig();
+    return config.pollEndPattern;
 }
 
 function getMailFormat(){

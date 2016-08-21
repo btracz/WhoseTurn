@@ -69,7 +69,10 @@ function checkPollExists(date) {
 
 function createPoll(delivery, respondents) {
     if (checkPollExists(delivery.date)) {
-        return getPoll(delivery.date);
+        var existingPoll = getPoll(delivery.date);
+        existingPoll.deliverer = delivery.deliverer.id;
+        savePolls();
+        return existingPoll;
     } else {
         var newPoll = {
             date: delivery.date,
@@ -142,6 +145,7 @@ function closePoll(date) {
         var index = getPollIndex(date);
         polls[index].open = false;
         savePolls();
+        return polls[index];
     } else {
         throw new Error("Sondage inexistant");
     }
