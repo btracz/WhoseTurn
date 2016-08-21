@@ -104,7 +104,7 @@ var avatarDialog = $("#dialog-avatar-form").dialog({
             }).error(function () {
                 $("body").css("cursor", "default");
                 avatarUploadButtonsActive(true);
-                alert('Erreur, veuillez r�essayer.');
+                alert('Erreur, veuillez réessayer.');
             });
         }
     },
@@ -181,7 +181,7 @@ $(".userEditSaveButton").button().on("click", function () {
             location.reload();
         },
         error: function (err) {
-            alert("Erreur, veuillez r�essayer \n" + JSON.stringify(err));
+            alert("Erreur, veuillez réessayer \n" + JSON.stringify(err));
             location.reload();
         }
     });

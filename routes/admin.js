@@ -59,18 +59,20 @@ router.post('/avatar/:login', auth, function (req, res) {
     form.on('file', function (field, file) {
         fs.rename(file.path, path.join(form.uploadDir, login + '.jpg'));
     });
+
     // log any errors that occur
     form.on('error', function (err) {
         console.log('Erreur : \n' + err);
     });
+
     // once all the files have been uploaded, send a response to the client
     form.on('end', function () {
+        userManager.refreshUsersCache();
         res.end('success');
     });
+
     // parse the incoming request containing the form data
     form.parse(req);
-
-    userManager.refreshUsersCache();
 });
 
 router.post('/user', auth, function (req, res) {
