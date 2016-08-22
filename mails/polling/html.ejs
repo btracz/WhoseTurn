@@ -1,50 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sondage Petits Pains</title>
+    <title>Sondage Petits Pains</title>
 </head>
 <body>
-<style>
-  .button {
-    font: bold 11px Arial;
-    text-decoration: none;
-    color: #FFFFFF;
-    padding: 8px 12px 8px 12px;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
-    margin-left: 5px;
-  }
-
-  .green {
-    background-color: #006600;
-  }
-
-  .red {
-    background-color: #660000;
-  }
-
-  .green:hover {
-    background-color: #008800;
-  }
-
-  .red:hover {
-    background-color: #880000;
-  }
-</style>
 <h2>Sondage Petits Pains</h2>
 
 <p>Bonjour,<br>
-  Afin d'anticiper au mieux le nombre de personnes présentes ce <b><%= delivery.dateText %></b>
-  pour déguster de succulents pains au chocolat, un sondage automatique est mené pour faciliter le travail du
-  livreur.<br>
-  <br>
+    Afin d'anticiper au mieux le nombre de personnes présentes ce <b><%= delivery.dateText %></b>
+    pour déguster de succulents pains au chocolat, un sondage automatique est mené pour faciliter le travail du
+    livreur.<br>
+    <br>
 
 <h3 style="margin-top:5px;margin-bottom:0px">Serez-vous parmi nous ?</h3>
 <i style="font-size:small">Pour répondre, vous devez être connecté au réseau Sopra.</i>
 
 <div style="margin-top:8px;">
-  <a class="button green" href="http://swinterwebint01.ptx.fr.sopra:36789/polls/<%= guid %>/true">OUI</a>
-  <a class="button red" href="http://swinterwebint01.ptx.fr.sopra:36789/polls/<%= guid %>/false">NON</a><br>
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center" width="80" height="40" bgcolor="#006600"
+                style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
+                <a href="http://swinterwebint01.ptx.fr.sopra:36789/polls/<%= guid %>/true"
+                   style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">
+                    <span style="color: #FFFFFF">OUI</span></a>
+            </td>
+            <td width="20"></td>
+            <td align="center" width="80" height="40" bgcolor="#660000"
+                style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
+                <a href="http://swinterwebint01.ptx.fr.sopra:36789/polls/<%= guid %>/false"
+                   style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">
+                    <span style="color: #FFFFFF">NON</span></a>
+            </td>
+        </tr>
+    </table>
 </div>
 <br>
 Merci de bien vouloir y répondre
