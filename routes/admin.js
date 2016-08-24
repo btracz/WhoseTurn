@@ -128,6 +128,7 @@ router.get('/poll', auth, function (req, res) {
         respondents = [];
         openedPoll.respondents.forEach(function (resp) {
             respondents.push({
+                guid: resp.guid,
                 name: userManager.getUser(resp.id).name,
                 status: resp.status,
                 dateText: resp.answerDate ? moment(resp.answerDate).tz("Europe/Paris").format("DD/MM/YYYY HH:mm:ss") : '-'

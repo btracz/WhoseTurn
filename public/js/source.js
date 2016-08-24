@@ -71,6 +71,23 @@ $("#addUserButton").click(function () {
     }
 });
 
+$(".resendPollButton").click(function () {
+    var url = "/polls/send/" + $(this).attr('guid');
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (response) {
+            alert('Succès !');
+            console.log(response);
+        },
+        error: function (err) {
+            alert(err.status + " " + err.statusText);
+            console.log(err);
+        }
+    });
+});
+
 $('.userThumbnail').miniPreview({
     height: 200,
     width: 200,

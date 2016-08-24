@@ -23,7 +23,8 @@ module.exports = {
     sendWeeklyNotification: sendWeeklyNotification,
     startNotificationsScheduling: startNotificationsScheduling,
     refreshSMTPClientConfig: refreshSMTPClientConfig,
-    refreshTaskPatterns: refreshTaskPatterns
+    refreshTaskPatterns: refreshTaskPatterns,
+    sendPoll: sendPoll
 };
 
 /**
@@ -82,39 +83,50 @@ function createPoll() {
     var nextDeliv = planning.actualAndNextDeliverer()[0];
     var subscribers = users.getSubscribers();
     var poll = pollManager.createPoll(nextDeliv, subscribers);
+    poll.respondents.forEach(function (respondent) {
+        sendPoll(respondent, nextDeliv.date).then(function (result) {
+            deferred.resolve();
+        }, function (error) {
+            deferred.reject(error);
+        });
+    });
+
+    return deferred.promise;
+}
+
+function sendPoll(respondent, date) {
+    var deferred = Q.defer();
+    var recipient = users.getUserMail(respondent.id);
     var cron = later.parse.cron(config.pollEndPattern(), false);
     var pollClose = later.schedule(cron).next(1);
-    poll.respondents.forEach(function (respondent) {
-        var recipient = users.getUserMail(respondent.id);
-        var pollTemplate = new EmailTemplate(path.join(__dirname, '../mails/polling'));
-        pollTemplate.render(
-            {
-                delivery: {
-                    dateText: moment(nextDeliv.date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM")
-                },
-                guid: respondent.guid,
-                poll: {
-                    closingDateText: moment(pollClose).tz("Europe/Paris").format("dddd Do MMMM [à] H[h]mm")
-                }
+    var pollTemplate = new EmailTemplate(path.join(__dirname, '../mails/polling'));
+    pollTemplate.render(
+        {
+            delivery: {
+                dateText: moment(date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM")
             },
-            function (err, result) {
-                if (err) {
-                    console.log("Erreur lors de la création du mail de sondage, raison : " + err);
-                    deferred.reject(err);
-                } else {
-                    console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
-                    sendMail(recipient,
-                        "Sondage petits pains",
-                        result.html).then(function (result) {
-                            console.log("Sondage de " + respondent.id + " envoyé");
-                            deferred.resolve(result);
-                        }).catch(function (error) {
-                            console.log("Sondage de " + respondent.id + " échoué, raison : " + error);
-                            deferred.reject(error);
-                        });
-                }
-            });
-    });
+            guid: respondent.guid,
+            poll: {
+                closingDateText: moment(pollClose).tz("Europe/Paris").format("dddd Do MMMM [à] H[h]mm")
+            }
+        },
+        function (err, result) {
+            if (err) {
+                console.log("Erreur lors de la création du mail de sondage, raison : " + err);
+                deferred.reject(err);
+            } else {
+                console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
+                sendMail(recipient,
+                    "Sondage petits pains",
+                    result.html).then(function (result) {
+                        console.log("Sondage de " + respondent.id + " envoyé");
+                        deferred.resolve(result);
+                    }).catch(function (error) {
+                        console.log("Sondage de " + respondent.id + " échoué, raison : " + error);
+                        deferred.reject(error);
+                    });
+            }
+        });
 
     return deferred.promise;
 }
@@ -128,12 +140,12 @@ function endPoll() {
     var poll = pollManager.closePoll(nextDeliv.date);
 
     // Calcul résultats
-    var presents = poll.respondents.filter(function(resp){
+    var presents = poll.respondents.filter(function (resp) {
         return resp.status === true;
     });
     var presCount = presents ? presents.length : 0;
 
-    var absents = poll.respondents.filter(function(resp){
+    var absents = poll.respondents.filter(function (resp) {
         return resp.status === false;
     });
     var absCount = absents ? absents.length : 0;
