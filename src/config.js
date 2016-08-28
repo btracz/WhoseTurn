@@ -13,8 +13,25 @@ module.exports = {
     pollStartPattern: getPollStartPattern,
     pollEndPattern: getPollEndPattern,
     mailFormat: getMailFormat,
-    externalMailFormat: getExternalMailFormat
+    externalMailFormat: getExternalMailFormat,
+    getHostname: getHostname,
+    getPort: getPort,
+    setPort: setPort
 };
+
+function getHostname() {
+    return require("os").hostname();
+}
+
+var port = process.env.PORT;
+
+function getPort(){
+    return port;
+}
+
+function setPort(number){
+    port = number;
+}
 
 function getFullConfig() {
     return JSON.parse(fs.readFileSync(configFile, 'utf8'));
@@ -25,32 +42,32 @@ function getMailSender() {
     return config.mailSender;
 }
 
-function getMailServer(){
+function getMailServer() {
     var config = getFullConfig();
     return config.mailServer;
 }
 
-function getWeeklyNotificationPattern(){
+function getWeeklyNotificationPattern() {
     var config = getFullConfig();
     return config.weeklyNotificationPattern;
 }
 
-function getPollStartPattern(){
+function getPollStartPattern() {
     var config = getFullConfig();
     return config.pollStartPattern;
 }
 
-function getPollEndPattern(){
+function getPollEndPattern() {
     var config = getFullConfig();
     return config.pollEndPattern;
 }
 
-function getMailFormat(){
+function getMailFormat() {
     var config = getFullConfig();
     return config.mailFormat;
 }
 
-function getExternalMailFormat(){
+function getExternalMailFormat() {
     var config = getFullConfig();
     return config.externalMailFormat;
 }

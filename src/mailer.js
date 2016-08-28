@@ -47,7 +47,7 @@ function sendWeeklyNotification() {
     var deferred = Q.defer();
     var nextDeliveries = planning.actualAndNextDeliverer();
     var notification = new EmailTemplate(path.join(__dirname, '../mails/weeklyNotification'));
-    notification.render({deliveries: nextDeliveries}, function (err, result) {
+    notification.render({deliveries: nextDeliveries, hostname: config.getHostname(), port: config.getPort()}, function (err, result) {
         if (err) {
             console.log("Erreur lors de l'envoi de la notification hebdomadaire, raison : " + err);
             deferred.reject(err);
@@ -108,7 +108,9 @@ function sendPoll(respondent, date) {
             guid: respondent.guid,
             poll: {
                 closingDateText: moment(pollClose).tz("Europe/Paris").format("dddd Do MMMM [à] H[h]mm")
-            }
+            },
+            hostname: config.getHostname(),
+            port: config.getPort()
         },
         function (err, result) {
             if (err) {

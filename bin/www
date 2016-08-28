@@ -7,12 +7,14 @@
 var app = require('../app');
 var debug = require('debug')('WhoseTurn:server');
 var http = require('http');
+var config = require('../src/config');
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '36789');
+config.setPort(port);
 console.log("environnement : " + process.env.NODE_ENV);
 console.log("port : " + port);
 app.set('port', port);

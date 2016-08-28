@@ -2,6 +2,7 @@ var express = require('express');
 var userManager = require('../src/users');
 var planningManager = require('../src/planning');
 var pollManager = require('../src/polling');
+var config = require('../src/config');
 var router = express.Router();
 var mailer = require("../src/mailer");
 var formidable = require('formidable');
@@ -34,7 +35,7 @@ var auth = function (req, res, next) {
 
 /* GET users listing. */
 router.get('/', auth, function (req, res) {
-    res.render('admin/index', {title: "Administration"});
+    res.render('admin/index', {title: "Administration", hostname: config.getHostname(), port: config.getPort()});
 });
 
 router.get('/users', auth, function (req, res) {

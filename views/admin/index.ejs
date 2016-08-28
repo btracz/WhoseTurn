@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Administration</title>
+    <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
@@ -35,3 +35,10 @@
 </nav>
 
 <p>Bienvenue sur la page admin !!!!</p>
+<p>Infos serveur :</p>
+<ul>
+  <li>Hostname : <%= hostname %></li>
+  <li>Port :  <%= port %></li>
+</ul>
+</body>
+</html>
