@@ -79,19 +79,19 @@ function sendWeeklyNotification() {
  * Crée un nouveau sondage et envoie
  */
 function createPoll() {
-    var deferred = Q.defer();
     var nextDeliv = planning.actualAndNextDeliverer()[0];
     var subscribers = users.getSubscribers();
     var poll = pollManager.createPoll(nextDeliv, subscribers);
-    poll.respondents.forEach(function (respondent) {
-        sendPoll(respondent, nextDeliv.date).then(function (result) {
-            deferred.resolve();
-        }, function (error) {
-            deferred.reject(error);
-        });
-    });
 
-    return deferred.promise;
+    // boucle avec un délai de 1sec entre chaque envoi de mail
+    // afin de respecter un quota auprès du serveur mail
+    (function sendingLoop (i) {
+        setTimeout(function () {
+            var respondent = poll.respondents[i-1];
+            sendPoll(respondent, nextDeliv.date);
+            if (--i) sendingLoop(i);
+        }, 1000)
+    })(poll.respondents.length);
 }
 
 function sendPoll(respondent, date) {
