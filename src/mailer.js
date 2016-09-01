@@ -83,14 +83,14 @@ function createPoll() {
     var subscribers = users.getSubscribers();
     var poll = pollManager.createPoll(nextDeliv, subscribers);
 
-    // boucle avec un délai de 1sec entre chaque envoi de mail
+    // boucle avec un délai de 10 sec entre chaque envoi de mail
     // afin de respecter un quota auprès du serveur mail
     (function sendingLoop (i) {
         setTimeout(function () {
             var respondent = poll.respondents[i-1];
             sendPoll(respondent, nextDeliv.date);
             if (--i) sendingLoop(i);
-        }, 1000)
+        }, 10000)
     })(poll.respondents.length);
 }
 
