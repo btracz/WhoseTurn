@@ -119,40 +119,30 @@ router.get('/planning', auth, function (req, res) {
 });
 
 router.get('/poll', auth, function (req, res) {
-    var respondents;
-    var presCount = 0;
-    var absCount = 0;
-    var noRespCount = 0;
-
     var openedPoll = pollManager.getOpenPoll();
     if (openedPoll) {
-        respondents = [];
+        openedPoll = pollManager.getPollStatus(openedPoll.date);
+        openedPoll.deliverer = userManager.getUser(openedPoll.deliverer);
+
         openedPoll.respondents.forEach(function (resp) {
-            respondents.push({
-                guid: resp.guid,
-                name: userManager.getUser(resp.id).name,
-                status: resp.status,
-                dateText: resp.answerDate ? moment(resp.answerDate).tz("Europe/Paris").format("DD/MM/YYYY HH:mm:ss") : '-'
-            });
+            resp.name = userManager.getUser(resp.id).name;
+            resp.dateText = resp.answerDate ? moment(resp.answerDate).tz("Europe/Paris").format("DD/MM/YYYY HH:mm:ss") : '-';
         });
+    }
 
-        // Calcul résultats
-        var presents = openedPoll.respondents.filter(function (resp) {
-            return resp.status === true;
-        });
-        presCount = presents ? presents.length : 0;
+    var lastPoll = pollManager.getLastClosedPoll();
 
-        var absents = openedPoll.respondents.filter(function (resp) {
-            return resp.status === false;
+    if (lastPoll) {
+        lastPoll = pollManager.getPollStatus(lastPoll.date);
+        lastPoll.deliverer = userManager.getUser(lastPoll.deliverer);
+        lastPoll.respondents.forEach(function (resp) {
+            resp.name = userManager.getUser(resp.id).name;
+            resp.dateText = resp.answerDate ? moment(resp.answerDate).tz("Europe/Paris").format("DD/MM/YYYY HH:mm:ss") : '-';
         });
-        absCount = absents ? absents.length : 0;
-        noRespCount = openedPoll.respondents.length - presCount - absCount;
     }
     res.render('admin/poll', {
-        respondents: respondents,
-        presentCount: presCount,
-        noResponseCount: noRespCount,
-        absentCount: absCount
+        openedPoll: openedPoll,
+        lastPoll: lastPoll
     });
 });
 

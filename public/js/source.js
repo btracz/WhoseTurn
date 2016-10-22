@@ -88,6 +88,23 @@ $(".resendPollButton").click(function () {
     });
 });
 
+$(".resendPollResultButton").click(function (){
+    var url = "/polls/send-result/" + $(this).attr('poll-date');
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (response) {
+            alert('Succès !');
+            console.log(response);
+        },
+        error: function (err) {
+            alert(err.status + " " + err.statusText);
+            console.log(err);
+        }
+    });
+});
+
 $('.userThumbnail').miniPreview({
     height: 200,
     width: 200,
