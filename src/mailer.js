@@ -24,7 +24,8 @@ module.exports = {
     startNotificationsScheduling: startNotificationsScheduling,
     refreshSMTPClientConfig: refreshSMTPClientConfig,
     refreshTaskPatterns: refreshTaskPatterns,
-    sendPoll: sendPoll
+    sendPoll: sendPoll,
+    sendPollResult: sendPollResult
 };
 
 /**
@@ -140,27 +141,26 @@ function endPoll() {
     var deferred = Q.defer();
     var nextDeliv = planning.actualAndNextDeliverer()[0];
     var poll = pollManager.closePoll(nextDeliv.date);
-
-    // Calcul résultats
-    var presents = poll.respondents.filter(function (resp) {
-        return resp.status === true;
+    sendPollResult(poll.date).then(function (result) {
+        deferred.resolve(result);
+    }).catch(function (error) {
+        deferred.reject(error);
     });
-    var presCount = presents ? presents.length : 0;
 
-    var absents = poll.respondents.filter(function (resp) {
-        return resp.status === false;
-    });
-    var absCount = absents ? absents.length : 0;
-    var noRespCount = poll.respondents.length - presCount - absCount;
+    return deferred.promise;
+}
 
+function sendPollResult(date){
+    var deferred = Q.defer();
+    var poll = pollManager.getPollStatus(date);
     var recipient = users.getUserMail(poll.deliverer);
     var pollResultTemplate = new EmailTemplate(path.join(__dirname, '../mails/poll-result'));
     pollResultTemplate.render(
         {
-            deliveryDateText: moment(nextDeliv.date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM"),
-            presentCount: presCount,
-            noResponseCount: noRespCount,
-            absentCount: absCount
+            deliveryDateText: moment(date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM"),
+            presentCount: poll.status.presents,
+            noResponseCount: poll.status.noResponse,
+            absentCount: poll.status.absents
         },
         function (err, result) {
             if (err) {

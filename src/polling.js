@@ -13,7 +13,9 @@ module.exports = {
     setPollResponse: setPollResponse,
     getPoll: getPoll,
     getOpenPoll: getOpenPoll,
-    closePoll: closePoll
+    getLastClosedPoll: getLastClosedPoll,
+    closePoll: closePoll,
+    getPollStatus: getPollStatus
 };
 
 function initPollFile() {
@@ -64,6 +66,25 @@ function getOpenPoll() {
     if (openPolls && openPolls.length > 0) {
         return openPolls[0];
     }
+}
+
+function getLastClosedPoll() {
+    var closedPolls = polls.filter(function (poll) {
+        return !poll.open;
+    });
+
+    if (closedPolls && closedPolls.length > 0) {
+        return closedPolls.sort(function(pollA, pollB){
+            return convertDateStringToDate(pollB.date) - convertDateStringToDate(pollA.date);
+        })[0];
+    }
+
+}
+
+function convertDateStringToDate(dateString) {
+    var splitDate = dateString.split("/");
+    var month = parseInt(splitDate[1], 10) - 1;
+    return new Date(splitDate[2], month.toString(), splitDate[0]);
 }
 
 function getPollIndex(date) {
@@ -160,4 +181,28 @@ function closePoll(date) {
     } else {
         throw new Error("Sondage inexistant");
     }
+}
+
+function getPollStatus(date){
+    var poll = JSON.parse(JSON.stringify(getPoll(date)));
+
+    // Calcul résultats
+    var presents = poll.respondents.filter(function (resp) {
+        return resp.status === true;
+    });
+    var presCount = presents ? presents.length : 0;
+
+    var absents = poll.respondents.filter(function (resp) {
+        return resp.status === false;
+    });
+    var absCount = absents ? absents.length : 0;
+    var noRespCount = poll.respondents.length - presCount - absCount;
+
+    poll.status = {
+        presents: presCount,
+        absents: absCount,
+        noResponse: noRespCount
+    };
+
+    return poll;
 }

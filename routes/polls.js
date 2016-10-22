@@ -40,6 +40,24 @@ router.get('/send/:guid', function (req, res) {
 
 });
 
+// Renvoi du résultat
+router.get('/send-result/:date*', function (req, res) {
+    var date = req.params.date.substr(0, 2) + '/' + req.params.date.substr(2, 2) + '/' + req.params.date.substr(4, 4);
+    try {
+        mailer.sendPollResult(date).then(
+            function(result){
+                res.status(200).end();
+            }).catch(
+            function(err){
+                res.status(500).send(JSON.stringify(err));
+            }
+        );
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(JSON.stringify(err));
+    }
+});
+
 /* GET Réponse au sondage */
 router.get('/:guid/:answer', function (req, res) {
     try {
