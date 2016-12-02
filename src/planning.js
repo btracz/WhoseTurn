@@ -73,7 +73,7 @@ function getTitle(date) {
     if (diffDays <= 0) {
         return title[0].replace("{0}", date);
     }
-    else if (diffDays <= 7) {
+    else if (diffDays < 7) {
         return title[1];
     }
     else if (diffDays <= 13) {
