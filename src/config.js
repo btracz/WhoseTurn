@@ -38,7 +38,7 @@ var fullHostname = os.hostname();
         dns.reverse(add, function (err, domains) {
             if (err) {
                 console.log("The reverse lookup error = ", JSON.stringify(err));
-            } else {
+            } else if (domains && domains.length > 0) {
                 console.log("Full domain name  : ", domains[0].toLowerCase());
                 fullHostname = domains[0].toLowerCase();
             }
