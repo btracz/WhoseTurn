@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<header>
+<head>
     <title>Rappel Petits Pains</title>
-</header>
+</head>
 <body>
     <h2>Rappel Petits Pains</h2>
 
     <p>Bonjour à tous,<br>
     Cette semaine la personne qui nous apporte les petits pains est <b><%= deliveries[0].deliverer.name %></b>.<br>
+        <img src="http://<%= hostname %><%= port != 80 ? ':' + port : ''%><%=deliveries[0].deliverer.avatar%>" height="100"/>
     <br>
     La semaine prochaine ce sera <b><%= deliveries[1].deliverer.name %></b>. <br>
-    Retrouvez tout le calendrier <a title="(accessible depuis le réseau Sopra uniquement)" href="http://swinterwebint01.ptx.fr.sopra:36789">ici</a>.</p>
+        <img src="http://<%= hostname %><%= port != 80 ? ':' + port : ''%><%=deliveries[1].deliverer.avatar%>" height="50" /><br>
+    Retrouvez tout le calendrier <a title="(accessible depuis le réseau Sopra uniquement)" href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>">ici</a>.</p>
 
-    <p><i>N.B. : Ceci est un mail automatique, merci de ne pas y répondre.</i></p>
+    <p><i>N.B. : Ceci est un mail automatique, merci de ne pas y répondre. (Sauf en cas d'absence pour votre tour)</i></p>
 </body>
 </html>

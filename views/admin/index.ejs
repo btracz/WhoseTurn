@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Administration</title>
+    <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
@@ -15,8 +15,18 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                <li><a href="/admin/parameters">Paramètres</a></li>
                 <li><a href="/admin/users">Gérer les utilisateurs</a></li>
-                <li><a href="/admin/send-notification">Envoyer le mail hebdo</a></li>
+                <li><a href="/admin/planning">Editer le planning</a></li>
+                <li><a href="/admin/poll">Consulter le sondage</a></li>
+                <li><a href="#" onclick="confirmSend()">Envoyer le mail hebdo</a></li>
+                <script>
+                  function confirmSend() {
+                    if (window.confirm("Confimer l\'envoi du mail ?")) {
+                      document.location.href = "/admin/send-notification";
+                    }
+                  }
+                </script>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -25,3 +35,11 @@
 </nav>
 
 <p>Bienvenue sur la page admin !!!!</p>
+<p>Infos serveur :</p>
+<ul>
+  <li>Hostname : <%= hostname %></li>
+  <li>Port :  <%= port %></li>
+</ul>
+<a href="/">↩ Retour à l'application</a>
+</body>
+</html>

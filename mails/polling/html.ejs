@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sondage Petits Pains</title>
+</head>
+<body>
+<h2>Sondage Petits Pains</h2>
+
+<p>Bonjour,<br>
+    Afin d'anticiper au mieux le nombre de personnes présentes ce <b><%= delivery.dateText %></b>
+    pour déguster de succulents pains au chocolat, un sondage automatique est mené pour faciliter le travail du
+    livreur.<br>
+    <br>
+
+<h3 style="margin-top:5px;margin-bottom:0px">Serez-vous parmi nous ?</h3>
+<i style="font-size:small">Pour répondre, vous devez être connecté au réseau Sopra.</i>
+
+<div style="margin-top:8px;">
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center" width="80" height="40" bgcolor="#006600"
+                style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
+                <a href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>/polls/<%= guid %>/true"
+                   style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">
+                    <span style="color: #FFFFFF">OUI</span></a>
+            </td>
+            <td width="20"></td>
+            <td align="center" width="80" height="40" bgcolor="#660000"
+                style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
+                <a href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>/polls/<%= guid %>/false"
+                   style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">
+                    <span style="color: #FFFFFF">NON</span></a>
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+Merci de bien vouloir y répondre
+avant <b><%= poll.closingDateText %></b>.<br>
+<br>
+Rappel : Vous pouvez retrouver tout le calendrier <a title="(accessible depuis le réseau Sopra uniquement)"
+                                                     href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>">ici</a>.</p>
+<!--<p><i>N.B. : Ceci est un mail automatique, merci de ne pas y répondre.</i></p>-->
+</body>
+</html>
