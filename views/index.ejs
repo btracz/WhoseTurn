@@ -6,6 +6,9 @@
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
     <link rel="icon" type="image/png" href="/croissant.png">
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/source.js"></script>
 </head>
 <body background="/images/vinnoiserie.jpg">
 <a type="button" class="btn btn-default admin-button" href="/admin" title="Administration">
@@ -65,32 +68,12 @@
 <br/>
 
 <div class="searchForm">
-    <h4>Vous voulez savoir quand sera votre tour ?</h4>
-    <br/>
-    <form id="mysearchform" action="/" method="post">
+    <h4>Et moi, c'est pour quand ?</h4>
         <fieldset>
-            <label for="name">Nom/Prénom :</label>
-            <input type="text" id="name" name="name" placeholder="Exemple : Bob" />
-            <input type="submit" id="thebouton" value="Rechercher" />
+            <input type="text" id="nameUser" name="name" placeholder="Exemple : Bob" />
+            <button id="thebouton" onclick="searchUser()">Rechercher</button>
         </fieldset>
-    </form>
-    <p id="test"></p>
 </div>
 
-
-<%
-    function searchUser() {
-        var x = document.getElementById("mysearchform");
-        var text = "";
-        text += x.elements[1].value;
-        document.getElementById("test").innerHTML = text;
-    }
-%>
-
-
-
 </body>
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/source.js"></script>
 </html>

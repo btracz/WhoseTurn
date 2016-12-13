@@ -222,3 +222,21 @@ $(".userEditSaveButton").button().on("click", function () {
         }
     });
 });
+
+function searchUser() {
+    var userName = document.getElementById('nameUser').value;
+    $.ajax({
+        contentType: "application/json",
+        type: "POST",
+        url: "/search",
+        data: JSON.stringify({data: userName}),
+        success: function (data) {
+            // Travailler avec l'affichage des matchs sur le site
+            console.log(data);
+        },
+        error: function (err) {
+            alert("Erreur, veuillez réessayer \n" + JSON.stringify(err));
+            location.reload();
+        }
+    });
+}

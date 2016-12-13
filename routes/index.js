@@ -4,7 +4,7 @@ var planning = require("../src/planning.js");
 var users = require("../src/users.js");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
     var model = {};
     var planData = planning.actualAndNextDeliverer();
     model.actualDeliverer = planData[0];
@@ -14,19 +14,34 @@ router.get('/', function(req, res, next) {
             deliverer.next = true;
         }
     });
-    res.render('index', {title : "A qui le tour ?", model : model});
+    res.render('index', {title: "A qui le tour ?", model: model});
 });
 
 /* POST home page*/
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
     var model = {};
     users.getUsers().forEach(function (user) {
-        if (user.id.indexOf(req.body.name) > -1){
+        if (user.id.indexOf(req.body.name) > -1) {
             console.log('La date de cette livraison est :');
         }
     });
 
-    res.render('index', {title : "A qui le tour ?", model : model});
+    res.render('index', {title: "A qui le tour ?", model: model});
+});
+
+/* POST searchUser*/
+router.post('/search', function (req, res, next) {
+    console.log(req.body.data); // Comparer tout cela avec le fichier users json
+    var usersMatch = new Array();
+    var reg = new RegExp(req.body.data,"i");
+    users.getUsers().forEach(function (user) {
+        if (reg.test(user.id)) {
+            usersMatch.push(user);
+        }
+    });
+
+    console.log(usersMatch);
+    res.status(200).send("OK");
 });
 
 module.exports = router;
