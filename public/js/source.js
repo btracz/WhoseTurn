@@ -2,6 +2,7 @@ var avatarFormData = new FormData();
 
 $(window).load(function () {
     $('.carousel').carousel('pause');
+    $('#results').hide();
 });
 
 $("#parametersForm button[type=button]").click(function () {
@@ -231,8 +232,8 @@ function searchUser() {
         url: "/search",
         data: JSON.stringify({data: userName}),
         success: function (data) {
-            // Travailler avec l'affichage des matchs sur le site
-            console.log(data);
+            $('#results div').text(data[0].name);
+            $('#results').show();
         },
         error: function (err) {
             alert("Erreur, veuillez réessayer \n" + JSON.stringify(err));
