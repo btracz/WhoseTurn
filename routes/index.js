@@ -31,17 +31,17 @@ router.post('/', function (req, res, next) {
 
 /* POST searchUser*/
 router.post('/search', function (req, res, next) {
-    console.log(req.body.data); // Comparer tout cela avec le fichier users json
+    console.log(req.body.data);
     var usersMatch = new Array();
     var reg = new RegExp(req.body.data,"i");
     users.getUsers().forEach(function (user) {
-        if (reg.test(user.id)) {
+        if (reg.test(user.id) && user.hasSubscribe == true) {
             usersMatch.push(user);
         }
     });
 
     console.log(usersMatch);
-    res.status(200).send("OK");
+    res.status(200).send(usersMatch);
 });
 
 module.exports = router;
