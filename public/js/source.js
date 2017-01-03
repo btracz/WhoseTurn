@@ -2,6 +2,7 @@ var avatarFormData = new FormData();
 
 $(window).load(function () {
     $('.carousel').carousel('pause');
+    $('#results').hide();
 });
 
 $("#parametersForm button[type=button]").click(function () {
@@ -222,3 +223,28 @@ $(".userEditSaveButton").button().on("click", function () {
         }
     });
 });
+
+function searchUser() {
+    var userName = document.getElementById('nameUser').value;
+    $.ajax({
+        contentType: "application/json",
+        type: "POST",
+        url: "/search",
+        data: JSON.stringify({data: userName}),
+        success: function (data) {
+
+            $('#results div').remove();
+
+            for(i = 0; i < data.length; i++){
+                var div = document.createElement("div");
+                div.innerText = data[i].name + ' - ' + data[i].date;
+                $('#results').append(div);
+            }
+            $('#results').show();
+        },
+        error: function (err) {
+            alert("Erreur, veuillez réessayer \n" + JSON.stringify(err));
+            location.reload();
+        }
+    });
+}
