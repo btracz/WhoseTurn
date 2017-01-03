@@ -232,7 +232,9 @@ function searchUser() {
         url: "/search",
         data: JSON.stringify({data: userName}),
         success: function (data) {
+
             $('#results div').remove();
+
             for(i = 0; i < data.length; i++){
                 var div = document.createElement("div");
                 div.innerText = data[i].name + ' - ' + data[i].date;

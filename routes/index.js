@@ -4,6 +4,7 @@ var planning = require("../src/planning.js");
 var userPlanning = require("../data/planning.json");
 var users = require("../src/users.js");
 var _ = require("underscore");
+var moment = require("moment");
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -36,9 +37,15 @@ router.post('/search', function (req, res, next) {
     console.log(req.body.data);
     var usersMatch = new Array();
     var reg = new RegExp(req.body.data, "i");
+    var currentDate = moment(new Date);
+    var theLastDate = _.last(userPlanning).date;
     users.getUsers().forEach(function (user) {
         if (reg.test(user.id) && user.hasSubscribe == true) {
             user.date = _.last(_.where(userPlanning, {"deliverer": user.id})).date;
+            var userDate = moment(user.date, "DD/MM/YYYY");
+            if(userDate < currentDate){
+                user.date = 'Prochaine livraison après le ' + theLastDate;
+            }
             usersMatch.push(user);
         }
     });
