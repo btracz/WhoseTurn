@@ -232,7 +232,12 @@ function searchUser() {
         url: "/search",
         data: JSON.stringify({data: userName}),
         success: function (data) {
-            $('#results div').text(data[0].name);
+            $('#results div').remove();
+            for(i = 0; i < data.length; i++){
+                var div = document.createElement("div");
+                div.innerText = data[i].name + ' - ' + data[i].date;
+                $('#results').append(div);
+            }
             $('#results').show();
         },
         error: function (err) {

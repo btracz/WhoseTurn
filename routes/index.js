@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var planning = require("../src/planning.js");
+var userPlanning = require("../data/planning.json");
 var users = require("../src/users.js");
+var _ = require("underscore");
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -33,9 +35,10 @@ router.post('/', function (req, res, next) {
 router.post('/search', function (req, res, next) {
     console.log(req.body.data);
     var usersMatch = new Array();
-    var reg = new RegExp(req.body.data,"i");
+    var reg = new RegExp(req.body.data, "i");
     users.getUsers().forEach(function (user) {
         if (reg.test(user.id) && user.hasSubscribe == true) {
+            user.date = _.last(_.where(userPlanning, {"deliverer": user.id})).date;
             usersMatch.push(user);
         }
     });
