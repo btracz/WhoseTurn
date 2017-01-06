@@ -9,6 +9,7 @@ var planningFile = './data/planning.json';
 var title = ["Le {0}, c'était :", "Cette semaine c'est :", "La semaine prochaine, ce sera :", "Le {0}, ce sera :"];
 
 module.exports = {
+    getPlanningOnly:getPlanningOnly,
     getPlanning: getPlanning,
     actualAndNextDeliverer: actualAndNextDeliverer,
     getFollowingDeliverer: getFollowingDeliverer,
@@ -16,6 +17,11 @@ module.exports = {
     getFollowingDeliveryDate: getFollowingDeliveryDate,
     updatePlanning: updatePlanning
 };
+
+function getPlanningOnly() {
+    var planning = JSON.parse(fs.readFileSync(planningFile, 'utf8'));
+    return planning;
+}
 
 function getPlanning() {
     var planning = JSON.parse(fs.readFileSync(planningFile, 'utf8'));

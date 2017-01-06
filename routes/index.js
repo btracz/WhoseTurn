@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var planning = require("../src/planning.js");
-var userPlanning = require("../data/planning.json");
+//var userPlanning = require("../data/planning.json");
 var users = require("../src/users.js");
 var _ = require("underscore");
 var moment = require("moment");
@@ -38,10 +38,11 @@ router.post('/search', function (req, res, next) {
     var usersMatch = new Array();
     var reg = new RegExp(req.body.data, "i");
     var currentDate = moment(new Date);
-    var theLastDate = _.last(userPlanning).date;
+    var theLastDate = _.last(planning.getPlanningOnly()).date;
     users.getUsers().forEach(function (user) {
         if (reg.test(user.id) && user.hasSubscribe == true) {
-            user.date = _.last(_.where(userPlanning, {"deliverer": user.id})).date;
+            console.log(user.id);
+            user.date = _.last(_.where(planning.getPlanningOnly(), {"deliverer": user.id})).date;
             var userDate = moment(user.date, "DD/MM/YYYY");
             if(userDate < currentDate){
                 user.date = 'Prochaine livraison après le ' + theLastDate;
