@@ -26,25 +26,29 @@ module.exports = {
 var fullHostname = os.hostname();
 
 (function() {
-    var localHostname = os.hostname();
-    console.log("Short hostname = ", localHostname);
-    dns.lookup(localHostname, function (err, add, fam) {
-        if (err) {
-            console.log("The error = ", JSON.stringify(err));
-            return;
-        }
-        console.log('addr: ' + add);
-        console.log('family: ' + fam);
-        dns.reverse(add, function (err, domains) {
+    let config = getFullConfig();
+    if (config.hostname) {
+        fullHostname = config.hostname;
+    } else {
+        var localHostname = os.hostname();
+        console.log("Short hostname = ", localHostname);
+        dns.lookup(localHostname, function (err, add, fam) {
             if (err) {
-                console.log("The reverse lookup error = ", JSON.stringify(err));
-            } else if (domains && domains.length > 0) {
-                console.log("Full domain name  : ", domains[0].toLowerCase());
-                fullHostname = domains[0].toLowerCase();
+                console.log("The error = ", JSON.stringify(err));
+                return;
             }
+            console.log('addr: ' + add);
+            console.log('family: ' + fam);
+            dns.reverse(add, function (err, domains) {
+                if (err) {
+                    console.log("The reverse lookup error = ", JSON.stringify(err));
+                } else if (domains && domains.length > 0) {
+                    console.log("Full domain name  : ", domains[0].toLowerCase());
+                    fullHostname = domains[0].toLowerCase();
+                }
+            });
         });
-    });
-
+    }
 })();
 
 function getHostname() {
