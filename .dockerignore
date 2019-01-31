@@ -1,2 +1,6 @@
 config.json
 data/*
+public/images/*
+!public/images/.gitignore
+!public/images/vinnoiserie.jpg
+!public/images/inconnu.jpg
