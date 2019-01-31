@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var dns = require('dns');
 var os = require('os');
-configFile = path.join(__dirname, process.env.CONFIG_PATH || '../config.json');
+configFile = process.env.CONFIG_PATH || path.join(__dirname, '../config.json');
 
 module.exports = {
     getFullConfig: getFullConfig,
