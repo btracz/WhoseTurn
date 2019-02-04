@@ -20,14 +20,14 @@
         <tr>
             <td align="center" width="80" height="40" bgcolor="#006600"
                 style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
-                <a href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>/polls/<%= guid %>/true"
+                <a href="<%= appBaseURI %>/polls/<%= guid %>/true"
                    style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">
                     <span style="color: #FFFFFF">OUI</span></a>
             </td>
             <td width="20"></td>
             <td align="center" width="80" height="40" bgcolor="#660000"
                 style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
-                <a href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>/polls/<%= guid %>/false"
+                <a href="<%= appBaseURI %>/polls/<%= guid %>/false"
                    style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">
                     <span style="color: #FFFFFF">NON</span></a>
             </td>
@@ -39,7 +39,7 @@ Merci de bien vouloir y répondre
 avant <b><%= poll.closingDateText %></b>.<br>
 <br>
 Rappel : Vous pouvez retrouver tout le calendrier <a title="(accessible depuis le réseau Sopra uniquement)"
-                                                     href="http://<%= hostname %><%= port != 80 ? ':' + port : ''%>">ici</a>.</p>
+                                                     href="<%= appBaseURI %>">ici</a>.</p>
 <!--<p><i>N.B. : Ceci est un mail automatique, merci de ne pas y répondre.</i></p>-->
 </body>
 </html>
