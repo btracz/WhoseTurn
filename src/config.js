@@ -15,11 +15,11 @@ module.exports = {
     mailFormat: getMailFormat,
     externalMailFormat: getExternalMailFormat,
     getAppBaseURI: getAppBaseURI,
-    getUseradmin: getUseradmin,
+    getUserAdmin: getUserAdmin,
     getPasswordAdmin: getPasswordAdmin
 };
 
-function getUseradmin() {
+function getUserAdmin() {
     var config = getFullConfig();
     return config.userAdmin;
 }
