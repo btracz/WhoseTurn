@@ -26,7 +26,7 @@ var auth = function (req, res, next) {
         return unauthorized(res);
     }
 
-    if (user.name === 'admin' && user.pass === 'password') {
+    if (user.name === config.getUserAdmin() && user.pass === config.getPasswordAdmin()) {
         return next();
     } else {
         return unauthorized(res);

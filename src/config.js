@@ -14,8 +14,20 @@ module.exports = {
     pollEndPattern: getPollEndPattern,
     mailFormat: getMailFormat,
     externalMailFormat: getExternalMailFormat,
-    getAppBaseURI: getAppBaseURI
+    getAppBaseURI: getAppBaseURI,
+    getUseradmin: getUseradmin,
+    getPasswordAdmin: getPasswordAdmin
 };
+
+function getUseradmin() {
+    var config = getFullConfig();
+    return config.userAdmin;
+}
+
+function getPasswordAdmin() {
+    var config = getFullConfig();
+    return config.passwordAdmin;
+}
 
 function getAppBaseURI() {
     var config = getFullConfig();
