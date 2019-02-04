@@ -6,7 +6,7 @@ var config = require('../src/config');
 var router = express.Router();
 var mailer = require("../src/mailer");
 var formidable = require('formidable');
-var configFile = './config.json';
+var configFile = process.env.CONFIG_PATH || path.join(__dirname, './config.json');
 var fs = require('fs');
 var path = require('path');
 var moment = require('moment-timezone');
@@ -35,7 +35,7 @@ var auth = function (req, res, next) {
 
 /* GET users listing. */
 router.get('/', auth, function (req, res) {
-    res.render('admin/index', {title: "Administration", hostname: config.getHostname(), port: config.getPort()});
+    res.render('admin/index', {title: "Administration", appBaseURI: config.getAppBaseURI()});
 });
 
 router.get('/users', auth, function (req, res) {
