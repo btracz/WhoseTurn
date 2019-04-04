@@ -2,6 +2,7 @@
  * Created by Benjamin on 21/08/2016.
  */
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 var mailer = require("../src/mailer");
 var userManager = require('../src/users');
@@ -55,6 +56,24 @@ router.get('/send-result/:date*', function (req, res) {
     } catch (err) {
         console.log(err);
         res.status(500).send(JSON.stringify(err));
+    }
+});
+
+
+/* GET Consultation publique du sondage */
+router.get('/:guid', function (req, res) {
+    try {
+        var poll = pollManager.getPollStatusByGuid(req.params.guid);
+        poll.deliverer = userManager.getUser(poll.deliverer);
+
+        poll.respondents.forEach(function (resp) {
+            resp.name = userManager.getUser(resp.id).name;
+            resp.dateText = resp.answerDate ? moment(resp.answerDate).tz("Europe/Paris").format("DD/MM/YYYY HH:mm:ss") : '-';
+        });
+        res.render('poll/status', {poll: poll});
+    } catch (err){
+        console.log(err);
+        res.render('poll/status', {poll: null});
     }
 });
 

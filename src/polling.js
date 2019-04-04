@@ -12,6 +12,7 @@ module.exports = {
     createPoll: createPoll,
     setPollResponse: setPollResponse,
     getPoll: getPoll,
+    getPollStatusByGuid: getPollStatusByGuid,
     getOpenPoll: getOpenPoll,
     getLastClosedPoll: getLastClosedPoll,
     closePoll: closePoll,
@@ -58,13 +59,22 @@ function getPoll(date) {
     }
 }
 
+function getPollById(id) {
+    var index = getPollIndexByGuid(id);
+    if (index >= 0) {
+        return polls[index];
+    } else {
+        return null;
+    }
+}
+
 function getOpenPoll() {
     var openPolls = polls.filter(function (poll) {
         return poll.open;
     });
 
     if (openPolls && openPolls.length > 0) {
-        return openPolls[0];
+        return openPolls[openPolls.length - 1];
     }
 }
 
@@ -93,6 +103,12 @@ function getPollIndex(date) {
     });
 }
 
+function getPollIndexByGuid(guid) {
+    return _.findIndex(polls, function (poll) {
+        return poll.guid == guid;
+    });
+}
+
 function checkPollExists(date) {
     var index = getPollIndex(date);
 
@@ -109,6 +125,7 @@ function createPoll(delivery, respondents) {
         var newPoll = {
             date: delivery.date,
             deliverer: delivery.deliverer.id,
+            guid: uuid.v4(),
             open: true,
             respondents: []
         };
@@ -184,25 +201,40 @@ function closePoll(date) {
 }
 
 function getPollStatus(date){
-    var poll = JSON.parse(JSON.stringify(getPoll(date)));
+    var poll = getPoll(date);
+    return setPollStatus(poll);
+}
+
+function getPollStatusByGuid(guid) {
+    var result = null;
+    var poll = getPollById(guid);
+    if (poll) {
+        result = setPollStatus(poll);
+    }
+
+    return result;
+}
+
+function setPollStatus(poll) {
+    var localpoll = JSON.parse(JSON.stringify(poll));
 
     // Calcul résultats
-    var presents = poll.respondents.filter(function (resp) {
+    var presents = localpoll.respondents.filter(function (resp) {
         return resp.status === true;
     });
     var presCount = presents ? presents.length : 0;
 
-    var absents = poll.respondents.filter(function (resp) {
+    var absents = localpoll.respondents.filter(function (resp) {
         return resp.status === false;
     });
     var absCount = absents ? absents.length : 0;
-    var noRespCount = poll.respondents.length - presCount - absCount;
+    var noRespCount = localpoll.respondents.length - presCount - absCount;
 
-    poll.status = {
+    localpoll.status = {
         presents: presCount,
         absents: absCount,
         noResponse: noRespCount
     };
 
-    return poll;
+    return localpoll;
 }

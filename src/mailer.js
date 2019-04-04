@@ -93,6 +93,8 @@ function createPoll() {
             if (--i) sendingLoop(i);
         }, 10000)
     })(poll.respondents.length);
+
+    sendPollStart(poll);
 }
 
 function sendPoll(respondent, date) {
@@ -179,6 +181,34 @@ function sendPollResult(date){
             }
         });
 
+    return deferred.promise;
+}
+
+function sendPollStart(poll) {
+    var deferred = Q.defer();
+    var recipient = users.getUserMail(poll.deliverer);
+    var pollWatchTemplate = new EmailTemplate(path.join(__dirname, '../mails/poll-watch'));
+    pollWatchTemplate.render({
+            deliveryDateText: moment(poll.date, "DD/MM/YYYY").tz("Europe/Paris").format("dddd Do MMMM"),
+            pollAddress: config.getAppBaseURI() + "/polls/" + poll.guid
+        },
+        function (err, result) {
+            if (err) {
+                console.log("Erreur lors de la création du mail de consultation du sondage, raison : " + err);
+                deferred.reject(err);
+            } else {
+                console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
+                sendMail(recipient,
+                    "Petits Pains, à votre tour !",
+                    result.html).then(function (result) {
+                    console.log("Mail de consultation du sondage du " + poll.date + " envoyé à " + recipient);
+                    deferred.resolve(result);
+                }).catch(function (error) {
+                    console.log("Mail de consultation du sondage du " + poll.date + " échoué, raison : " + error);
+                    deferred.reject(error);
+                });
+            }
+        });
     return deferred.promise;
 }
 
