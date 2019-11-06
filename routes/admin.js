@@ -6,9 +6,9 @@ var config = require('../src/config');
 var router = express.Router();
 var mailer = require("../src/mailer");
 var formidable = require('formidable');
-var configFile = process.env.CONFIG_PATH || path.join(__dirname, './config.json');
-var fs = require('fs');
 var path = require('path');
+var configFile = process.env.CONFIG_PATH || path.join(__dirname, '../config.json');
+var fs = require('fs');
 var moment = require('moment-timezone');
 moment.locale('fr');
 

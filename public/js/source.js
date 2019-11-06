@@ -106,11 +106,13 @@ $(".resendPollResultButton").click(function (){
     });
 });
 
-$('.userThumbnail').miniPreview({
-    height: 200,
-    width: 200,
-    scale: .50,
-    prefetch: 'parenthover'
+$('.userThumbnail').popover({
+    //trigger: 'focus',
+    trigger: 'hover',
+    html: true,
+    content: function () {
+        return '<img style="max-height:300px;max-width:200px;" class="img-fluid" src="'+$(this).data('img') + '" />';
+    }
 });
 
 var avatarDialog = $("#dialog-avatar-form").dialog({

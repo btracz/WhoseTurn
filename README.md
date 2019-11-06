@@ -9,11 +9,13 @@ Application permettant de planifier à qui sera le tour de faire quelque chose..
 - Interface administration (utilisateur)
 - Sondage présence
 - Affichage photos
+- Champ de recherche pour le prochain tour de quelqu'un
 
 ## TODOs :
 - Notification d'indisponibilité
 - Acceptation de l'échange de tour
-- Savoir quand est le prochain tour de quelqu'un (idéalement avec auto-complétion)
+- Désabonnement
+- Modification d'une date de livraison (ou gestion des jours fériés)
 
 ## Configuration :
 ```javascript
