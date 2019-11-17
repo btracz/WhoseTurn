@@ -41,6 +41,8 @@ node_modules
 .idea/tasks.xml
 .idea/dictionaries
 
+.vscode
+
 # Sensitive or high-churn files:
 # .idea/dataSources.ids
 # .idea/dataSources.xml

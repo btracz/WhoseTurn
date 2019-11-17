@@ -34,24 +34,20 @@ router.post('/', function (req, res, next) {
 
 /* POST searchUser*/
 router.post('/search', function (req, res, next) {
-    console.log(req.body.data);
     var usersMatch = new Array();
     var reg = new RegExp(req.body.data, "i");
     var currentDate = moment(new Date);
     var theLastDate = _.last(planning.getPlanningOnly()).date;
     users.getUsers().forEach(function (user) {
         if (reg.test(user.id) && user.hasSubscribe == true) {
-            console.log(user.id);
-            user.date = _.last(_.where(planning.getPlanningOnly(), {"deliverer": user.id})).date;
+            user.date = (_.last(_.where(planning.getPlanningOnly(), {"deliverer": user.id})) || {}).date;
             var userDate = moment(user.date, "DD/MM/YYYY");
-            if(userDate < currentDate){
+            if(!userDate.isValid() || userDate < currentDate){
                 user.date = 'Prochaine livraison après le ' + theLastDate;
             }
             usersMatch.push(user);
         }
     });
-
-    console.log(usersMatch);
     res.status(200).send(usersMatch);
 });
 

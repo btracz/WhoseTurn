@@ -140,7 +140,7 @@ var avatarDialog = $("#dialog-avatar-form").dialog({
                 $("body").css("cursor", "default");
                 avatarDialog.dialog("close");
                 location.reload();
-            }).error(function () {
+            }).fail(function () {
                 $("body").css("cursor", "default");
                 avatarUploadButtonsActive(true);
                 alert('Erreur, veuillez réessayer.');

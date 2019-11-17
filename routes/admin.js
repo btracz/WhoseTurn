@@ -61,7 +61,7 @@ router.post('/avatar/:login', auth, function (req, res) {
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name
     form.on('file', function (field, file) {
-        fs.rename(file.path, path.join(form.uploadDir, login + '.jpg'));
+        fs.renameSync(file.path, path.join(form.uploadDir, login + '.jpg'));
     });
 
     // log any errors that occur
