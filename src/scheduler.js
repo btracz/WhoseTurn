@@ -12,7 +12,7 @@ var Q = require("q");
 function createJob(taskName, cronPattern, taskmethod) {
     var deferred = Q.defer();
     if (taskName && cronPattern && taskmethod && checkCronPattern(cronPattern)) {
-        scheduler.add(taskName, cronPattern, taskmethod);
+        scheduler.add(taskName, cronPattern, taskmethod, { timeZone: "Europe/Paris" });
         var message = "Tache crée : " + taskName + ", pattern : " + cronPattern;
         console.log(message);
         deferred.resolve(message);

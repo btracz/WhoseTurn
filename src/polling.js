@@ -4,7 +4,8 @@
 var fs = require('fs');
 var uuid = require('uuid');
 var _ = require("underscore");
-var pollsFile = './data/polls.json';
+const path = require("path");
+var pollsFile =  path.join(__dirname, "../data/polls.json");
 
 var polls = getPolls();
 

@@ -5,7 +5,8 @@ var fs = require('fs');
 var _ = require('underscore');
 var moment = require('moment');
 var users = require("./users");
-var planningFile = './data/planning.json';
+const path = require("path");
+var planningFile = path.join(__dirname, "../data/planning.json");
 var title = ["Le {0}, c'était :", "Cette semaine c'est :", "La semaine prochaine, ce sera :", "Le {0}, ce sera :"];
 
 module.exports = {

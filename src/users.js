@@ -5,7 +5,7 @@ var fs = require('fs');
 var config = require("./config");
 var path = require("path");
 var _ = require("underscore");
-var userFile = './data/users.json';
+var userFile =  path.join(__dirname, "../data/users.json");
 
 module.exports = {
     getUsers: getUsers,
