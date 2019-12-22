@@ -86,26 +86,31 @@ router.post('/user', auth, function (req, res) {
 });
 
 router.get('/parameters', auth, function (req, res) {
-    var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-    res.render('admin/parameters', {title: "Paramétrage de l'application", config: config});
+    var localConfig = JSON.parse(fs.readFileSync(configFile, 'utf8'));
+    localConfig.isCronModeOn = config.isCronModeOn();
+    res.render('admin/parameters', {title: "Paramétrage de l'application", config: localConfig});
 });
 
 router.post('/parameters', auth, function (req, res) {
     var data = req.body;
-    var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-    config.mailSender = data.mailSender || "";
-    config.mailServer.host = data.mailServer.host || "";
-    config.mailServer.port = data.mailServer.port || "";
-    config.mailServer.secure = data.mailServer.secure;
-    config.mailServer.requireTLS = data.mailServer.requireTLS;
-    config.mailServer.auth.user = data.mailServer.auth.user || "";
-    config.mailServer.auth.pass = data.mailServer.auth.pass || "";
-    config.weeklyNotificationPattern = data.weeklyNotificationPattern;
-    config.pollStartPattern = data.pollStartPattern;
-    config.pollEndPattern = data.pollEndPattern;
-    fs.writeFileSync(configFile, JSON.stringify(config, null, 4), 'utf8');
+    var configToSave = JSON.parse(fs.readFileSync(configFile, 'utf8'));
+    configToSave.mailSender = data.mailSender || "";
+    configToSave.mailServer.host = data.mailServer.host || "";
+    configToSave.mailServer.port = data.mailServer.port || "";
+    configToSave.mailServer.secure = data.mailServer.secure;
+    configToSave.mailServer.requireTLS = data.mailServer.requireTLS;
+    configToSave.mailServer.auth.user = data.mailServer.auth.user || "";
+    configToSave.mailServer.auth.pass = data.mailServer.auth.pass || "";
+
+    if (config.isCronModeOn()) {
+        configToSave.weeklyNotificationPattern = data.weeklyNotificationPattern;
+        configToSave.pollStartPattern = data.pollStartPattern;
+        configToSave.pollEndPattern = data.pollEndPattern;
+        mailer.refreshTaskPatterns();
+    }
+
+    fs.writeFileSync(configFile, JSON.stringify(configToSave, null, 4), 'utf8');
     mailer.refreshSMTPClientConfig();
-    mailer.refreshTaskPatterns();
     res.status(200).send("ok");
 });
 
@@ -116,6 +121,16 @@ router.get('/planning', auth, function (req, res) {
         followingDeliverer: planningManager.getFollowingDeliverer(),
         followingDeliveryDate: planningManager.getFollowingDeliveryDate()
     });
+});
+
+router.get('/poll/start', auth, function (req, res) {
+    mailer.createPoll();
+    res.redirect("/admin/poll");
+});
+
+router.get('/poll/end', auth, function (req, res) {
+    mailer.endPoll();
+    res.redirect("/admin/poll");
 });
 
 router.get('/poll', auth, function (req, res) {
@@ -156,7 +171,7 @@ router.post('/planning/update', auth, function (req, res) {
     }
 });
 
-router.get('/send-notification', function (req, res) {
+router.get('/send-notification', auth, function (req, res) {
     mailer.sendWeeklyNotification().then(function (value) {
         res.status(200).send(value);
     }, function (reason) {

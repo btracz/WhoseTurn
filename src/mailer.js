@@ -25,7 +25,9 @@ module.exports = {
     refreshSMTPClientConfig: refreshSMTPClientConfig,
     refreshTaskPatterns: refreshTaskPatterns,
     sendPoll: sendPoll,
-    sendPollResult: sendPollResult
+    sendPollResult: sendPollResult,
+    createPoll: createPoll,
+    endPoll: endPoll
 };
 
 /**
@@ -34,11 +36,14 @@ module.exports = {
 function startNotificationsScheduling() {
     console.log("lancement de l'ordonnanceur");
     scheduler.createJob(weeklyNotificationTaskName, config.weeklyNotificationPattern(), sendWeeklyNotification);
-    scheduler.startTask(weeklyNotificationTaskName);
     scheduler.createJob(startPollTaskName, config.pollStartPattern(), createPoll);
-    scheduler.startTask(startPollTaskName);
     scheduler.createJob(endPollTaskName, config.pollEndPattern(), endPoll);
-    scheduler.startTask(endPollTaskName);
+
+    if (config.isCronModeOn()) {
+        scheduler.startTask(startPollTaskName);
+        scheduler.startTask(weeklyNotificationTaskName);
+        scheduler.startTask(endPollTaskName);
+    }
 }
 
 /**

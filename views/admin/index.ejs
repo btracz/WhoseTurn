@@ -19,14 +19,7 @@
                 <li><a href="/admin/users">Gérer les utilisateurs</a></li>
                 <li><a href="/admin/planning">Editer le planning</a></li>
                 <li><a href="/admin/poll">Consulter le sondage</a></li>
-                <li><a href="#" onclick="confirmSend()">Envoyer le mail hebdo</a></li>
-                <script>
-                  function confirmSend() {
-                    if (window.confirm("Confimer l\'envoi du mail ?")) {
-                      document.location.href = "/admin/send-notification";
-                    }
-                  }
-                </script>
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -35,6 +28,21 @@
 </nav>
 
 <p>Bienvenue sur la page admin !!!!</p>
+<h3>
+  Actions manuelles
+</h3>
+<ul>
+  <li><a href="/admin/poll/start">Démarrer le sondage</a></li>
+  <li><a href="/admin/poll/end">Terminer le sondage</a></li>
+  <li><a href="#" onclick="confirmSend()">Envoyer le mail hebdo</a></li>
+  <script>
+    function confirmSend() {
+      if (window.confirm("Confimer l\'envoi du mail ?")) {
+        document.location.href = "/admin/send-notification";
+      }
+    }
+  </script>
+</ul>
 <p>Infos serveur :</p>
 <ul>
   <li>appBaseURI : <%= appBaseURI %></li>

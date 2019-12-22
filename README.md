@@ -38,6 +38,7 @@ Application permettant de planifier à qui sera le tour de faire quelque chose..
   "weeklyNotificationPattern": "0 14 * * 4",
   "pollStartPattern": "3 13 * * 3",
   "pollEndPattern": "30 12 * * 4",
+  "cronModeOn": false,
   "mailFormat": "{0}@soprasteria.com",
   "externalMailFormat": "{0}@ext.soprasteria.com"
 }

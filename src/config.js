@@ -16,7 +16,8 @@ module.exports = {
     externalMailFormat: getExternalMailFormat,
     getAppBaseURI: getAppBaseURI,
     getUserAdmin: getUserAdmin,
-    getPasswordAdmin: getPasswordAdmin
+    getPasswordAdmin: getPasswordAdmin,
+    isCronModeOn: isCronModeOn
 };
 
 function getUserAdmin() {
@@ -71,4 +72,9 @@ function getMailFormat() {
 function getExternalMailFormat() {
     var config = getFullConfig();
     return config.externalMailFormat;
+}
+
+function isCronModeOn() {
+    var config = getFullConfig();
+    return typeof(config.cronModeOn) === "boolean" ? config.cronModeOn : true;
 }
