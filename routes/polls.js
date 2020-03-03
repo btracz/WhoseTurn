@@ -79,10 +79,16 @@ router.get('/:guid', function (req, res) {
 
 /* GET Réponse au sondage */
 router.get('/:guid/:answer', function (req, res) {
-    console.log("Réponse sondage :", req.params.guid, req.params.answer, ", ip :", req.ip, "ips :", req.ips, "User-Agent :", req.get("User-Agent"));
+    console.log("Réponse sondage (GET) :", req.params.guid, req.params.answer);
+    
+    res.render('poll/form', { guid: req.params.guid, answer: req.params.answer });
+});
+
+router.post('/:guid/:answer', function (req, res) {
+    console.log("Réponse sondage (POST) :", req.params.guid, req.body.answer);
 
     try {
-        pollManager.setPollResponse(req.params.guid, req.params.answer);
+        pollManager.setPollResponse(req.params.guid, req.body.answer);
         res.render('poll/answer', {title: "Merci !", success: true});
     } catch (err){
         console.log(err);
