@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sondage Petits Pains</title>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+</head>
+<body>
+    <h1>Veuillez confirmer votre choix !</h1>
+    <form method="POST">        
+        <p>Serez-vous là ?</p>
+
+        <div>
+            <input type="radio" id="yes"
+             name="answer" value="true" 
+             <%if(answer === 'true'){%>
+                <%="checked"%>
+             <%}%>
+            >
+            <label for="yes">Oui</label>
+        
+            <input type="radio" id="no"
+             name="answer" value="false"
+             <%if(answer === 'false'){%>
+                <%="checked"%>
+             <%}%>
+            >
+            <label for="no">Non</label>
+          </div>
+          <div>
+            <button type="submit">Valider</button>
+          </div>
+    </form>
+    <br/>
+    <a href="/">↩ Voir le calendrier</a>
+</body>
+</html>
