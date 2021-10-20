@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Rappel Petits Pains</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>Rappel Petits Pains</h2>
 
-    <p>Bonjour à tous,<br>
-    Cette semaine la personne qui nous apporte les petits pains est <b><%= deliveries[0].deliverer.name %></b>.<br>
-        <img src="<%= appBaseURI %><%=deliveries[0].deliverer.avatar%>" height="100"/>
-    <br>
-    La semaine prochaine ce sera <b><%= deliveries[1].deliverer.name %></b>. <br>
-        <img src="<%= appBaseURI %><%=deliveries[1].deliverer.avatar%>" height="50" /><br>
-    Retrouvez tout le calendrier <a href="<%= appBaseURI %>">ici</a>.</p>
+    <p>
+      Bonjour à tous,<br />
+      Cette semaine la personne qui nous apporte les petits pains est
+      <b><%= deliveries[0].deliverer.name %></b>.<br />
+      <img
+        src="<%= appBaseURI %><%=deliveries[0].deliverer.avatar%>"
+        height="100"
+      />
+      <br />
+      La semaine prochaine ce sera <b><%= deliveries[1].deliverer.name %></b>.
+      <br />
+      <img
+        src="<%= appBaseURI %><%=deliveries[1].deliverer.avatar%>"
+        height="50"
+      /><br />
+      Retrouvez tout le calendrier <a href="<%= appBaseURI %>">ici</a>.
+    </p>
 
-    <p><i>N.B. : Ceci est un mail automatique, merci de ne pas y répondre.<br/>
-    En cas d'absence pour votre tour, rapprochez-vous d'un administrateur :
-        <a href="mailto:maxence.gaudry@soprasteria.com?subject=Modification%20planning%20petits%20pains">Maxence</a>,
-        <a href="mailto:louis.sautelet@soprasteria.com?subject=Modification%20planning%20petits%20pains">Louis</a>
-        ou <a href="mailto:benjamin.tracz@soprasteria.com?subject=Modification%20planning%20petits%20pains">Benjamin</a>.</i></p>
-</body>
+    <p>
+      <i
+        >N.B. : Ceci est un mail automatique, merci de ne pas y répondre.<br />
+        En cas d'absence pour votre tour, rapprochez-vous d'un administrateur :
+        <a
+          href="mailto:maxence.gaudry@soprasteria.com?subject=Modification%20planning%20petits%20pains"
+          >Maxence</a
+        >
+        ou
+        <a
+          href="mailto:benjamin.tracz@soprasteria.com?subject=Modification%20planning%20petits%20pains"
+          >Benjamin</a
+        >.</i
+      >
+    </p>
+  </body>
 </html>

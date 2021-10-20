@@ -1,7 +1,9 @@
 # WhoseTurn
+
 Application permettant de planifier à qui sera le tour de faire quelque chose...
 
 ## Fonctionalités :
+
 - Historique + Planning
 - Envoi mail automatique
 - Template de mail
@@ -12,12 +14,14 @@ Application permettant de planifier à qui sera le tour de faire quelque chose..
 - Champ de recherche pour le prochain tour de quelqu'un
 
 ## TODOs :
+
 - Notification d'indisponibilité
 - Acceptation de l'échange de tour
 - Désabonnement
 - Modification d'une date de livraison (ou gestion des jours fériés)
 
 ## Configuration :
+
 ```javascript
 {
   "mailServer": {
@@ -38,8 +42,6 @@ Application permettant de planifier à qui sera le tour de faire quelque chose..
   "weeklyNotificationPattern": "0 14 * * 4",
   "pollStartPattern": "3 13 * * 3",
   "pollEndPattern": "30 12 * * 4",
-  "cronModeOn": false,
-  "mailFormat": "{0}@soprasteria.com",
-  "externalMailFormat": "{0}@ext.soprasteria.com"
+  "cronModeOn": false
 }
 ```
