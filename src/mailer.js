@@ -202,8 +202,8 @@ function sendPollResult(date) {
     function (err, result) {
       if (err) {
         console.log(
-          "Erreur lors de la création du mail de résultat du sondage, raison : " +
-            err
+          "Erreur lors de la création du mail de résultat du sondage, raison :",
+          err
         );
         deferred.reject(err);
       } else {
@@ -211,19 +211,14 @@ function sendPollResult(date) {
         sendMail(recipient, "Résultat sondage petits pains", result.html)
           .then(function (result) {
             console.log(
-              "Résultat du sondage du " +
-                nextDeliv.date +
-                " envoyé à " +
-                recipient
+              `Résultat du sondage du ${poll.date} envoyé à ${recipient}`
             );
             deferred.resolve(result);
           })
           .catch(function (error) {
             console.log(
-              "Résultat du sondage du " +
-                nextDeliv.date +
-                " échoué, raison : " +
-                error
+              `Résultat du sondage du ${poll.date} échoué, raison : `,
+              error
             );
             deferred.reject(error);
           });
@@ -339,8 +334,8 @@ function sendMail(recipients, subject, body) {
           subject +
           "' à " +
           recipients +
-          ", détails : " +
-          error.toString()
+          ", détails : ",
+        error
       );
 
       deferred.reject(error);

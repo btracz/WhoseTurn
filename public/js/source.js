@@ -19,10 +19,15 @@ $("#parametersForm button[type=button]").click(function () {
       },
     },
     mailSender: $("#sender").val(),
-    weeklyNotificationPattern: $("#cron1").cron("value"),
-    pollStartPattern: $("#cron2").cron("value"),
-    pollEndPattern: $("#cron3").cron("value"),
+    dayOfOccurrence: $("#dayOfOccurrence").val(),
   };
+  if ($("#cron1").length) {
+    // cron mode on
+    data.weeklyNotificationPattern = $("#cron1").cron("value");
+    data.pollStartPattern = $("#cron2").cron("value");
+    data.pollEndPattern = $("#cron3").cron("value");
+  }
+
   $.ajax({
     contentType: "application/json",
     type: "POST",
@@ -30,6 +35,7 @@ $("#parametersForm button[type=button]").click(function () {
     data: JSON.stringify(data),
     success: function (data) {
       console.log(data);
+      alert("sauvegardé");
     },
     error: function (err) {
       console.log(err);
@@ -121,53 +127,55 @@ $(".userThumbnail").popover({
   },
 });
 
-var avatarDialog = $("#dialog-avatar-form").dialog({
-  autoOpen: false,
-  height: 200,
-  width: 300,
-  modal: true,
-  buttons: [
-    {
-      id: "uploadAvatarButton",
-      disabled: true,
-      text: "Ajouter l'image",
-      click: function () {
-        $("body").css("cursor", "wait");
-        avatarUploadButtonsActive(false);
-        $.ajax({
-          url: "/admin/avatar/" + avatarDialog.data("login"),
-          type: "POST",
-          data: avatarFormData,
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            console.log("upload successful!\n" + data);
-          },
-        })
-          .then(function () {
-            $("body").css("cursor", "default");
-            avatarDialog.dialog("close");
-            location.reload();
+var avatarDialog =
+  $("#dialog-avatar-form").dialog &&
+  $("#dialog-avatar-form").dialog({
+    autoOpen: false,
+    height: 200,
+    width: 300,
+    modal: true,
+    buttons: [
+      {
+        id: "uploadAvatarButton",
+        disabled: true,
+        text: "Ajouter l'image",
+        click: function () {
+          $("body").css("cursor", "wait");
+          avatarUploadButtonsActive(false);
+          $.ajax({
+            url: "/admin/avatar/" + avatarDialog.data("login"),
+            type: "POST",
+            data: avatarFormData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              console.log("upload successful!\n" + data);
+            },
           })
-          .fail(function () {
-            $("body").css("cursor", "default");
-            avatarUploadButtonsActive(true);
-            alert("Erreur, veuillez réessayer.");
-          });
+            .then(function () {
+              $("body").css("cursor", "default");
+              avatarDialog.dialog("close");
+              location.reload();
+            })
+            .fail(function () {
+              $("body").css("cursor", "default");
+              avatarUploadButtonsActive(true);
+              alert("Erreur, veuillez réessayer.");
+            });
+        },
       },
-    },
-    {
-      text: "Annuler",
-      click: function () {
-        $("#avatarFile").val("");
-        avatarDialog.dialog("close");
+      {
+        text: "Annuler",
+        click: function () {
+          $("#avatarFile").val("");
+          avatarDialog.dialog("close");
+        },
       },
+    ],
+    close: function () {
+      $("#avatarFile").val("");
     },
-  ],
-  close: function () {
-    $("#avatarFile").val("");
-  },
-});
+  });
 
 function avatarUploadButtonsActive(active) {
   // Get the dialog buttons.

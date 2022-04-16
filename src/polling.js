@@ -5,6 +5,7 @@ var fs = require("fs");
 var uuid = require("uuid");
 var _ = require("underscore");
 const path = require("path");
+const { testFileExists } = require("./utils");
 var pollsFile = path.join(__dirname, "../data/polls.json");
 
 var polls = getPolls();
@@ -21,7 +22,7 @@ module.exports = {
 };
 
 function initPollFile() {
-  if (!pollFileExists()) {
+  if (!testFileExists(pollsFile)) {
     fs.writeFileSync(pollsFile, JSON.stringify([], null, 4), "utf8");
   } else {
     savePolls();
@@ -32,17 +33,8 @@ function savePolls() {
   fs.writeFileSync(pollsFile, JSON.stringify(polls, null, 4), "utf8");
 }
 
-function pollFileExists() {
-  try {
-    fs.accessSync(pollsFile, fs.F_OK);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
 function getPolls() {
-  if (pollFileExists()) {
+  if (testFileExists(pollsFile)) {
     var filePolls = JSON.parse(fs.readFileSync(pollsFile, "utf8"));
     return filePolls;
   } else {

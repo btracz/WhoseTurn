@@ -5,6 +5,7 @@ var fs = require("fs");
 var config = require("./config");
 var path = require("path");
 var _ = require("underscore");
+const { testFileExists } = require("./utils");
 var userFile = path.join(__dirname, "../data/users.json");
 
 module.exports = {
@@ -31,7 +32,16 @@ function getUsers() {
 }
 
 function refreshUsersCache() {
-  var users = JSON.parse(fs.readFileSync(userFile, "utf8"));
+  var users = []; // seed
+
+  if (testFileExists(userFile)) {
+    try {
+      users = JSON.parse(fs.readFileSync(userFile, "utf8"));
+    } catch (err) {
+      console.warn("Error parsing users file", users);
+    }
+  }
+
   users.forEach(function (user) {
     user.avatar = getAvatar(user.id);
   });
