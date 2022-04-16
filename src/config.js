@@ -5,19 +5,6 @@ var fs = require("fs");
 var path = require("path");
 configFile = process.env.CONFIG_PATH || path.join(__dirname, "../config.json");
 
-module.exports = {
-  getFullConfig: getFullConfig,
-  mailSender: getMailSender,
-  mailServer: getMailServer,
-  weeklyNotificationPattern: getWeeklyNotificationPattern,
-  pollStartPattern: getPollStartPattern,
-  pollEndPattern: getPollEndPattern,
-  getAppBaseURI: getAppBaseURI,
-  getUserAdmin: getUserAdmin,
-  getPasswordAdmin: getPasswordAdmin,
-  isCronModeOn: isCronModeOn,
-};
-
 function getUserAdmin() {
   var config = getFullConfig();
   return config.userAdmin;
@@ -66,3 +53,22 @@ function isCronModeOn() {
   var config = getFullConfig();
   return typeof config.cronModeOn === "boolean" ? config.cronModeOn : true;
 }
+
+function getDayOfOccurrence() {
+  var config = getFullConfig();
+  return config.dayOfOccurrence || 5;
+}
+
+module.exports = {
+  getFullConfig,
+  mailSender: getMailSender,
+  mailServer: getMailServer,
+  weeklyNotificationPattern: getWeeklyNotificationPattern,
+  pollStartPattern: getPollStartPattern,
+  pollEndPattern: getPollEndPattern,
+  getAppBaseURI,
+  getUserAdmin,
+  getPasswordAdmin,
+  isCronModeOn,
+  getDayOfOccurrence,
+};

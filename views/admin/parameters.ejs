@@ -1,117 +1,188 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
-    <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css'/>
-    <link type="text/css" href="/stylesheets/jquery-cron.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="/croissant.png">
-</head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap-theme.css" />
+    <link
+      type="text/css"
+      href="/stylesheets/jquery-cron.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/croissant.png" />
+  </head>
 
-<body>
-<main class="container">
-    <a href="/admin">↩ Accueil Administration</a>
-    <h1 class="text-center">Paramètres :</h1>
+  <body>
+    <main class="container">
+      <a href="/admin">↩ Accueil Administration</a>
+      <h1 class="text-center">Paramètres :</h1>
 
-    <form id="parametersForm" action="#" method="post" class="form-horizontal">
+      <form
+        id="parametersForm"
+        action="#"
+        method="post"
+        class="form-horizontal"
+      >
         <fieldset>
-            <legend>Serveur mail :</legend>
-            <div class="form-group">
-                <label for="host" class="col-sm-2 control-label">Host : </label>
+          <legend>Serveur mail :</legend>
+          <div class="form-group">
+            <label for="host" class="col-sm-2 control-label">Host : </label>
 
-                <div class="col-sm-10">
-                    <input id="host" type="text" class="form-control" value="<%= config.mailServer.host %>"/>
-                </div>
+            <div class="col-sm-10">
+              <input
+                id="host"
+                type="text"
+                class="form-control"
+                value="<%= config.mailServer.host %>"
+              />
             </div>
-            <div class="form-group">
-                <label for="port" class="col-sm-2 control-label">Port : </label>
+          </div>
+          <div class="form-group">
+            <label for="port" class="col-sm-2 control-label">Port : </label>
 
-                <div class="col-sm-10">
-                    <input id="port" type="text" class="form-control" value="<%= config.mailServer.port %>"/>
-                </div>
+            <div class="col-sm-10">
+              <input
+                id="port"
+                type="text"
+                class="form-control"
+                value="<%= config.mailServer.port %>"
+              />
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <label for="secure" class="checkbox-inline">
-                        <input id="secure" type="checkbox" <%= config.mailServer.secure ? 'checked' : '' %>> Secure
-                    </label>
-                    <label for="tls" class="checkbox-inline">
-                        <input id="tls" type="checkbox" <%= config.mailServer.requireTLS ? 'checked' : '' %>> Chiffrement TLS
-                    </label>
-                </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <label for="secure" class="checkbox-inline">
+                <input id="secure" type="checkbox" <%= config.mailServer.secure
+                ? 'checked' : '' %>> Secure
+              </label>
+              <label for="tls" class="checkbox-inline">
+                <input id="tls" type="checkbox" <%= config.mailServer.requireTLS
+                ? 'checked' : '' %>> Chiffrement TLS
+              </label>
             </div>
-            <div class="form-group">
-              <label for="sender" class="col-sm-2 control-label">Expéditeur : </label>
+          </div>
+          <div class="form-group">
+            <label for="sender" class="col-sm-2 control-label"
+              >Expéditeur :
+            </label>
 
-              <div class="col-sm-10">
-                <input id="sender" type="text" class="form-control" value="<%= config.mailSender %>"/>
-              </div>
+            <div class="col-sm-10">
+              <input
+                id="sender"
+                type="text"
+                class="form-control"
+                value="<%= config.mailSender %>"
+              />
             </div>
-            <div class="form-group">
-                <label for="user" class="col-sm-2 control-label">User : </label>
+          </div>
+          <div class="form-group">
+            <label for="user" class="col-sm-2 control-label">User : </label>
 
-                <div class="col-sm-10">
-                    <input id="user" type="text" class="form-control" value="<%= config.mailServer.auth.user %>"/>
-                </div>
+            <div class="col-sm-10">
+              <input
+                id="user"
+                type="text"
+                class="form-control"
+                value="<%= config.mailServer.auth.user %>"
+              />
             </div>
-            <div class="form-group">
-                <label for="pass" class="col-sm-2 control-label">Password : </label>
+          </div>
+          <div class="form-group">
+            <label for="pass" class="col-sm-2 control-label">Password : </label>
 
-                <div class="col-sm-10">
-                    <input id="pass" type="password" class="form-control" value="<%= config.mailServer.auth.pass %>"/>
-                </div>
+            <div class="col-sm-10">
+              <input
+                id="pass"
+                type="password"
+                class="form-control"
+                value="<%= config.mailServer.auth.pass %>"
+              />
             </div>
-            <% if (config.isCronModeOn) {%>
-            <div class="form-group">
-                <label for="cron1" class="col-sm-2 control-label">Cron rappel hebdo : </label>
-
-                <div class="col-sm-10">
-                    <div id="cron1" class="cron"></div>
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="cron2" class="col-sm-2 control-label">Cron début sondage : </label>
-
-              <div class="col-sm-10">
-                <div id="cron2" class="cron"></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="cron3" class="col-sm-2 control-label">Cron fin sondage : </label>
-
-              <div class="col-sm-10">
-                <div id="cron3" class="cron"></div>
-              </div>
-            </div>
-            <% } else { %>
-                <h4>Mode automatique (cron) désactivé en config</h4>
-            <%}%>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-default">Valider</button>
-                </div>
-            </div>
+          </div>
         </fieldset>
-    </form>
-</main>
-</body>
-<script src="/js/jquery.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script type="text/javascript" src="/js/cron/jquery-cron.js"></script>
-<script src="/js/source.js"></script>
-<script type="text/javascript">
-    $('#cron1').cron({
-        initial: "<%= config.weeklyNotificationPattern %>"
-    });
-    $("#cron1 > span.cron-period > select").prop('disabled', 'disabled');
-    $('#cron2').cron({
-      initial: "<%= config.pollStartPattern %>"
-    });
-    $("#cron2 > span.cron-period > select").prop('disabled', 'disabled')
-    $('#cron3').cron({
-      initial: "<%= config.pollEndPattern %>"
-    });
-    $("#cron3 > span.cron-period > select").prop('disabled', 'disabled')
-</script>
+        <fieldset>
+          <legend>CRON :</legend>
+          <% if (config.isCronModeOn) {%>
+          <div class="form-group">
+            <label for="cron1" class="col-sm-2 control-label"
+              >Cron rappel hebdo :
+            </label>
+
+            <div class="col-sm-10">
+              <div id="cron1" class="cron"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cron2" class="col-sm-2 control-label"
+              >Cron début sondage :
+            </label>
+
+            <div class="col-sm-10">
+              <div id="cron2" class="cron"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cron3" class="col-sm-2 control-label"
+              >Cron fin sondage :
+            </label>
+
+            <div class="col-sm-10">
+              <div id="cron3" class="cron"></div>
+            </div>
+          </div>
+          <% } else { %>
+          <h4>Mode automatique (cron) désactivé en config</h4>
+          <%}%>
+          <br />
+        </fieldset>
+        <fieldset>
+          <legend>Autres paramètres :</legend>
+          <div class="form-group">
+            <label for="dayOfOccurrence" class="col-sm-2 control-label"
+              >Jour d'occurrence :
+            </label>
+
+            <div class="col-sm-10">
+              <select id="dayOfOccurrence" class="form-control">
+                <option value="1" <%= config.dayOfOccurrence === 1 ? 'selected' : '' %>>Lundi</option>
+                <option value="2" <%= config.dayOfOccurrence === 2 ? 'selected' : '' %>>Mardi</option>
+                <option value="3" <%= config.dayOfOccurrence === 3 ? 'selected' : '' %>>Mercredi</option>
+                <option value="4" <%= config.dayOfOccurrence === 4 ? 'selected' : '' %>>Jeudi</option>
+                <option value="5" <%= config.dayOfOccurrence === 5 ? 'selected' : '' %>>Vendredi</option>
+                <option value="6" <%= config.dayOfOccurrence === 6 ? 'selected' : '' %>>Samedi</option>
+                <option value="0" <%= config.dayOfOccurrence === 0 ? 'selected' : '' %>>Dimanche</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-default">Valider</button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </body>
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/js/cron/jquery-cron.js"></script>
+  <script src="/js/source.js"></script>
+  <script type="text/javascript">
+      if ($("#cron1").length) {
+        // mode cron on
+        $("#cron1").cron({
+            initial: "<%= config.weeklyNotificationPattern %>",
+        });
+        $("#cron1 > span.cron-period > select").prop("disabled", "disabled");
+        $("#cron2").cron({
+            initial: "<%= config.pollStartPattern %>",
+        });
+        $("#cron2 > span.cron-period > select").prop("disabled", "disabled");
+        $("#cron3").cron({
+            initial: "<%= config.pollEndPattern %>",
+        });
+        $("#cron3 > span.cron-period > select").prop("disabled", "disabled");
+      }
+  </script>
 </html>

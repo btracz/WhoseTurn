@@ -42,6 +42,7 @@ Application permettant de planifier à qui sera le tour de faire quelque chose..
   "weeklyNotificationPattern": "0 14 * * 4",
   "pollStartPattern": "3 13 * * 3",
   "pollEndPattern": "30 12 * * 4",
-  "cronModeOn": false
+  "cronModeOn": false,
+  "dayOfOccurrence": 5, // Friday as default
 }
 ```
