@@ -194,7 +194,7 @@ function getFollowingDeliverer() {
   });
 
   var subscribersWithoutDelivery = subscribers.filter(function (item) {
-    return !item.lastDelivery;
+    return !item.lastDelivery || typeof item.lastDelivery === "string"; // (default value)
   });
 
   if (subscribersWithoutDelivery && subscribersWithoutDelivery.length > 0) {
