@@ -180,13 +180,17 @@ function getFollowingDeliverer() {
 
   // Moulinette de calcul de la dernière livraison des abonnés
   planning.forEach(function (delivery) {
-    var deliveryDate = convertDateStringToDate(delivery.date);
+    var deliveryDate = moment(delivery.date, "DD/MM/YYYY");
     subscribers.forEach(function (sub) {
+      if (!moment.isMoment(sub.lastDelivery)) {
+        sub.lastDelivery = moment(sub.lastDelivery);
+      }
+
       if (
         (sub.id == delivery.deliverer.id && !sub.lastDelivery) ||
         (sub.id == delivery.deliverer.id &&
           sub.lastDelivery &&
-          sub.lastDelivery < deliveryDate)
+          sub.lastDelivery.isBefore(deliveryDate))
       ) {
         sub.lastDelivery = deliveryDate;
       }
@@ -194,7 +198,7 @@ function getFollowingDeliverer() {
   });
 
   var subscribersWithoutDelivery = subscribers.filter(function (item) {
-    return !item.lastDelivery || typeof item.lastDelivery === "string"; // (default value)
+    return !item.lastDelivery;
   });
 
   if (subscribersWithoutDelivery && subscribersWithoutDelivery.length > 0) {
@@ -202,7 +206,7 @@ function getFollowingDeliverer() {
   }
 
   subscribers.sort(function (a, b) {
-    return a.lastDelivery.getTime() - b.lastDelivery.getTime();
+    return moment(a.lastDelivery).isBefore(moment(b.lastDelivery)) ? -1 : 1;
   });
 
   return subscribers.shift();
