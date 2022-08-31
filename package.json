@@ -19,7 +19,7 @@
     "formidable": "^1.0.17",
     "later": "^1.2.0",
     "moment": "^2.29.2",
-    "moment-timezone": "^0.5.5",
+    "moment-timezone": "^0.5.35",
     "nodemailer": "^6.6.1",
     "nodemailer-smtp-transport": "^2.4.2",
     "q": "^1.4.1",
