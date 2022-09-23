@@ -1,7 +1,7 @@
 var Q = require("q");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
-var EmailTemplate = require("email-templates").EmailTemplate;
+var EmailTemplate = require("email-templates");
 var path = require("path");
 var config = require("./config");
 var planning = require("./planning");
@@ -18,6 +18,14 @@ var smtpClient = nodemailer.createTransport(smtpTransport(config.mailServer()));
 var weeklyNotificationTaskName = "WeeklyNotification";
 var startPollTaskName = "PollStart";
 var endPollTaskName = "PollEnd";
+
+const emailTemplates = new EmailTemplate({
+  views: {
+    options: {
+      extension: "ejs",
+    },
+  },
+});
 
 module.exports = {
   sendWeeklyNotification: sendWeeklyNotification,
@@ -56,41 +64,39 @@ function startNotificationsScheduling() {
 function sendWeeklyNotification() {
   var deferred = Q.defer();
   var nextDeliveries = planning.actualAndNextDeliverer();
-  var notification = new EmailTemplate(
-    path.join(__dirname, "../mails/weeklyNotification")
-  );
-  notification.render(
-    { deliveries: nextDeliveries, appBaseURI: config.getAppBaseURI() },
-    function (err, result) {
-      if (err) {
-        console.log(
-          "Erreur lors de l'envoi de la notification hebdomadaire, raison : " +
-            err
-        );
-        deferred.reject(err);
+
+  emailTemplates
+    .render(
+      { path: "weeklyNotification/html" },
+      { deliveries: nextDeliveries, appBaseURI: config.getAppBaseURI() }
+    )
+    .then(function (result) {
+      var mails = [""];
+      if (process.env.NODE_ENV === "production") {
+        mails = users.getSubscribersMails();
+        console.log("abonnés : " + mails.join(";"));
       } else {
-        var mails = [""];
-
-        if (process.env.NODE_ENV === "production") {
-          mails = users.getSubscribersMails();
-          console.log("abonnés : " + mails.join(";"));
-        } else {
-          deferred.resolve("Mode hors prod, mail non envoyé");
-        }
-
-        sendMail(mails, "Rappels petits pains", result.html)
-          .then(function (result) {
-            console.log("Notification hebdomadaire réussie");
-            planning.createFollowingDelivery();
-            deferred.resolve("Succès (" + JSON.stringify(result) + ")");
-          })
-          .catch(function (error) {
-            console.log("Notification hebdomadaire échouée, raison : " + error);
-            deferred.reject(error);
-          });
+        return deferred.resolve("Mode hors prod, mail non envoyé");
       }
-    }
-  );
+
+      sendMail(mails, "Rappels petits pains", result)
+        .then(function (sendResult) {
+          console.log("Notification hebdomadaire réussie");
+          planning.createFollowingDelivery();
+          deferred.resolve("Succès (" + JSON.stringify(sendResult) + ")");
+        })
+        .catch(function (error) {
+          console.log("Notification hebdomadaire échouée, raison : " + error);
+          deferred.reject(error);
+        });
+    })
+    .catch(function (err) {
+      console.log(
+        "Erreur lors de l'envoi de la notification hebdomadaire, raison : " +
+          err
+      );
+      deferred.reject(err);
+    });
 
   return deferred.promise;
 }
@@ -121,46 +127,44 @@ function sendPoll(respondent, date) {
   var recipient = respondent.id; // id is mail
   var cron = later.parse.cron(config.pollEndPattern(), false);
   var pollClose = later.schedule(cron).next(1);
-  var pollTemplate = new EmailTemplate(
-    path.join(__dirname, "../mails/polling")
-  );
-  pollTemplate.render(
-    {
-      delivery: {
-        dateText: moment(date, "DD/MM/YYYY")
-          .tz("Europe/Paris")
-          .format("dddd Do MMMM"),
-      },
-      guid: respondent.guid,
-      poll: {
-        closingDateText: moment(pollClose)
-          .tz("Europe/Paris")
-          .format("dddd Do MMMM [à] H[h]mm"),
-      },
-      appBaseURI: config.getAppBaseURI(),
-    },
-    function (err, result) {
-      if (err) {
-        console.log(
-          "Erreur lors de la création du mail de sondage, raison : " + err
-        );
-        deferred.reject(err);
-      } else {
-        console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
-        sendMail(recipient, "Sondage petits pains", result.html)
-          .then(function (result) {
-            console.log("Sondage de " + respondent.id + " envoyé");
-            deferred.resolve(result);
-          })
-          .catch(function (error) {
-            console.log(
-              "Sondage de " + respondent.id + " échoué, raison : " + error
-            );
-            deferred.reject(error);
-          });
+  emailTemplates
+    .render(
+      { path: "polling/html" },
+      {
+        delivery: {
+          dateText: moment(date, "DD/MM/YYYY")
+            .tz("Europe/Paris")
+            .format("dddd Do MMMM"),
+        },
+        guid: respondent.guid,
+        poll: {
+          closingDateText: moment(pollClose)
+            .tz("Europe/Paris")
+            .format("dddd Do MMMM [à] H[h]mm"),
+        },
+        appBaseURI: config.getAppBaseURI(),
       }
-    }
-  );
+    )
+    .then(function (result) {
+      console.log("Corps du mail qui va être envoyé : \r\n" + result);
+      sendMail(recipient, "Sondage petits pains", result)
+        .then(function (sendResult) {
+          console.log("Sondage de " + respondent.id + " envoyé");
+          deferred.resolve(sendResult);
+        })
+        .catch(function (error) {
+          console.log(
+            "Sondage de " + respondent.id + " échoué, raison : " + error
+          );
+          deferred.reject(error);
+        });
+    })
+    .catch(function (err) {
+      console.log(
+        "Erreur lors de la création du mail de sondage, raison : " + err
+      );
+      deferred.reject(err);
+    });
 
   return deferred.promise;
 }
@@ -187,10 +191,8 @@ function sendPollResult(date) {
   var deferred = Q.defer();
   var poll = pollManager.getPollStatus(date);
   var recipient = poll.deliverer; // id is mail
-  var pollResultTemplate = new EmailTemplate(
-    path.join(__dirname, "../mails/poll-result")
-  );
-  pollResultTemplate.render(
+  emailTemplates.render(
+    { path: "poll-result/html" },
     {
       deliveryDateText: moment(date, "DD/MM/YYYY")
         .tz("Europe/Paris")
@@ -198,33 +200,31 @@ function sendPollResult(date) {
       presentCount: poll.status.presents,
       noResponseCount: poll.status.noResponse,
       absentCount: poll.status.absents,
-    },
-    function (err, result) {
-      if (err) {
-        console.log(
-          "Erreur lors de la création du mail de résultat du sondage, raison :",
-          err
-        );
-        deferred.reject(err);
-      } else {
-        console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
-        sendMail(recipient, "Résultat sondage petits pains", result.html)
-          .then(function (result) {
-            console.log(
-              `Résultat du sondage du ${poll.date} envoyé à ${recipient}`
-            );
-            deferred.resolve(result);
-          })
-          .catch(function (error) {
-            console.log(
-              `Résultat du sondage du ${poll.date} échoué, raison : `,
-              error
-            );
-            deferred.reject(error);
-          });
-      }
-    }
-  );
+    })
+    .then(function (result) {
+      console.log("Corps du mail qui va être envoyé : \r\n" + result);
+      sendMail(recipient, "Résultat sondage petits pains", result)
+        .then(function (sendResult) {
+          console.log(
+            `Résultat du sondage du ${poll.date} envoyé à ${recipient}`
+          );
+          deferred.resolve(sendResult);
+        })
+        .catch(function (error) {
+          console.log(
+            `Résultat du sondage du ${poll.date} échoué, raison : `,
+            error
+          );
+          deferred.reject(error);
+        });
+    })
+    .catch(function (err) {
+      console.log(
+        "Erreur lors de la création du mail de résultat du sondage, raison :",
+        err
+      );
+      deferred.reject(err);
+    });
 
   return deferred.promise;
 }
@@ -232,47 +232,43 @@ function sendPollResult(date) {
 function sendPollStart(poll) {
   var deferred = Q.defer();
   var recipient = poll.deliverer; // id is mail
-  var pollWatchTemplate = new EmailTemplate(
-    path.join(__dirname, "../mails/poll-watch")
-  );
-  pollWatchTemplate.render(
+  emailTemplates.render(    
+    { path: "poll-watch/html" },
     {
       deliveryDateText: moment(poll.date, "DD/MM/YYYY")
         .tz("Europe/Paris")
         .format("dddd Do MMMM"),
       pollAddress: config.getAppBaseURI() + "/polls/" + poll.guid,
-    },
-    function (err, result) {
-      if (err) {
-        console.log(
-          "Erreur lors de la création du mail de consultation du sondage, raison : " +
-            err
-        );
-        deferred.reject(err);
-      } else {
-        console.log("Corps du mail qui va être envoyé : \r\n" + result.html);
-        sendMail(recipient, "Petits Pains, à votre tour !", result.html)
-          .then(function (result) {
-            console.log(
-              "Mail de consultation du sondage du " +
-                poll.date +
-                " envoyé à " +
-                recipient
-            );
-            deferred.resolve(result);
-          })
-          .catch(function (error) {
-            console.log(
-              "Mail de consultation du sondage du " +
-                poll.date +
-                " échoué, raison : " +
-                error
-            );
-            deferred.reject(error);
-          });
-      }
-    }
-  );
+    })
+    .then(function (result) {
+      console.log("Corps du mail qui va être envoyé : \r\n" + result);
+      sendMail(recipient, "Petits Pains, à votre tour !", result)
+        .then(function (sendResult) {
+          console.log(
+            "Mail de consultation du sondage du " +
+              poll.date +
+              " envoyé à " +
+              recipient
+          );
+          deferred.resolve(sendResult);
+        })
+        .catch(function (error) {
+          console.log(
+            "Mail de consultation du sondage du " +
+              poll.date +
+              " échoué, raison : " +
+              error
+          );
+          deferred.reject(error);
+        });
+    })
+    .catch(function (err) {
+      console.log(
+        "Erreur lors de la création du mail de consultation du sondage, raison : " +
+          err
+      );
+      deferred.reject(err);
+    });
   return deferred.promise;
 }
 
