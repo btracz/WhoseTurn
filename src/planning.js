@@ -164,6 +164,7 @@ function getFollowingDeliveryDate() {
     followingDate = moment().toDate();
   }
 
+  // TODO : exclude holidays
   return moment(getNextDayOfWeek(followingDate, getDayOfOccurrence())).format(
     "DD/MM/YYYY"
   );
@@ -175,6 +176,8 @@ function getFollowingDeliverer() {
   if (subscribers.length === 0) {
     throw new Error(ERRORS.NO_USER_ERROR);
   }
+  // reset all delivery dates
+  subscribers.forEach((sub) =>  { sub.lastDelivery = null });
 
   var planning = getPlanning();
 
@@ -182,17 +185,13 @@ function getFollowingDeliverer() {
   planning.forEach(function (delivery) {
     var deliveryDate = moment(delivery.date, "DD/MM/YYYY");
     subscribers.forEach(function (sub) {
-      if (!moment.isMoment(sub.lastDelivery)) {
-        sub.lastDelivery = moment(sub.lastDelivery);
-      }
-
       if (
         (sub.id == delivery.deliverer.id && !sub.lastDelivery) ||
         (sub.id == delivery.deliverer.id &&
           sub.lastDelivery &&
-          sub.lastDelivery.isBefore(deliveryDate))
+          moment(sub.lastDelivery).isBefore(deliveryDate))
       ) {
-        sub.lastDelivery = deliveryDate;
+        sub.lastDelivery = deliveryDate.toISOString();
       }
     });
   });
